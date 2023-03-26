@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   return (
     <>
-    {/* TO DO Make Head a component */}
+    {/* TO DO Make Head a component for SEO */}
       <Head>
         <title>myMind</title>
         <meta name="description" content="Help manage anxiety and depression" />

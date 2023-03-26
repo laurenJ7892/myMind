@@ -17,8 +17,8 @@ const RequestReset = () => {
 
   const redirectUrl = process.env.NEXT_PUBLIC_URL + "/reset-password"
   
-  const heading = "Password Reset Email Sent", 
-  const text=  "If you have an account, we will send an email to reset your password. Please also check your junk mail!"
+  const heading = "Password Reset Email Sent"
+  const text =  "If you have an account, we will send an email to reset your password. Please also check your junk mail!"
  
 
   const handleSubmit = async (e) => {

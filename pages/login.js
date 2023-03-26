@@ -28,7 +28,7 @@ export default function SignUp() {
       setEmail('')
       setPassword('')
       
-      Router.push('/')
+      Router.push('/dashboard')
     } else {
       setError(error.message)
       return;
@@ -81,7 +81,10 @@ export default function SignUp() {
               Login
            </button>
          </form>
-         <Link href='/request-reset' aria-label="reset-your-password"  className="flex p-4 mt-4 justify-end text-base font-light text-black-200">
+         <Link 
+          href='/request-reset' 
+          aria-label="reset-your-password"  
+          className="flex p-4 w-[50%] mt-10 mx-auto text-base font-light justify-center text-white bg-blue-800 rounded-[20px] ">
           Forgot your password?
         </Link>
         </div>

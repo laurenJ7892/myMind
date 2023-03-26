@@ -9,7 +9,7 @@ import { useUser } from "../lib/context"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function SignUp() {
-   const { setUser, setSession } = useUser()
+  const { setUser, setSession } = useUser()
   const [accept, setAccept] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -74,7 +74,7 @@ export default function SignUp() {
       setPassword('')
       setSubmitted(true)
       
-      Router.push('/')
+      Router.push('/dashboard')
     } else {
       if (error.message.contains("already registered")) {
         setError("Oops it looks like you have already registered! Please try to sign in")
