@@ -1,8 +1,19 @@
 import { useState } from 'react'
+import Router from 'next/router'
 
-const Modal = ({ heading, text }) => {
+const Modal = ({ heading, text, route }) => {
   const [showModal, setShowModal] = useState(true)
 
+  const handleClick = () => {
+    setShowModal(false)
+    if (route) {
+      Router.push(route)
+    } else {
+      Router.push("/")
+    }
+  }
+
+  // TO DO: Fix Styling here
   return (
     <div>
       {showModal ? (
@@ -11,7 +22,7 @@ const Modal = ({ heading, text }) => {
             <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
               <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
                 <h5 className="text-3xl font-semibold">{heading}</h5>
-                <button className="" onClick={() => setShowModal(false)}>
+                <button className="" onClick={handleClick}>
                   X
                 </button>
               </div>

@@ -1,20 +1,25 @@
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
-import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
+import Modal from "../components/modal"
 
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RequestReset() {
+const RequestReset = () => {
   const [email, setEmail] = useState('')
   const [emailConfirm, setEmailConfirm] = useState('')
+  const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState(null)
+  
 
-  const redirectUrl = process.NEXT_PUBLIC_URL + "/reset-password"
-  console.log(redirectUrl)
+  const redirectUrl = process.env.NEXT_PUBLIC_URL + "/reset-password"
+  
+  const heading = "Password Reset Email Sent", 
+  const text=  "If you have an account, we will send an email to reset your password. Please also check your junk mail!"
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,10 +38,9 @@ export default function RequestReset() {
       setError(error.message)
       return;
     } else {
-      // TO DO: Add modal for user feedback
       setEmail('')
       setEmailConfirm('')
-      Router.push('/')
+      setSubmitted(true)
     }
   }
 
@@ -45,6 +49,7 @@ export default function RequestReset() {
   return (
     <>
       <Header />
+      {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] md:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">REQUEST PASSWORD RESET</h2>
@@ -90,3 +95,5 @@ export default function RequestReset() {
     </>
   )
 }
+
+export default RequestReset

@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
-import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
+import Modal from "../components/modal"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,6 +13,10 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [error, setError] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+
+  const heading = "Password Reset"
+  const text = "Your password has been reset"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,8 +55,8 @@ export default function ResetPassword() {
       setSession(data.session)
       setPassword('')
       setPasswordConfirm('')
+      setSubmitted(true)
       
-      Router.push('/')
     } else {
       setError(error)
       return;
@@ -64,6 +68,8 @@ export default function ResetPassword() {
   return (
     <>
       <Header />
+      {/* TO DO: CHECK ROUTE HERE MAYBE TO DASHBOARD */}
+      {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">RESET PASSWORD</h2>

@@ -5,12 +5,17 @@ import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
+import Modal from "../components/modal"
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Logout() {
   const { setUser, setSession } = useUser()
+  const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState(null)
+
+  const heading = "Logout Success"
+  const text = "You have been successfully logged out. Thank you!"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,13 +27,14 @@ export default function Logout() {
     } else {
       setUser({})
       setSession({})
-      Router.push('/')
+      setSubmitted(true)
     }
   }
 
   return (
     <>
       <Header />
+      {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">LOGOUT</h2>
