@@ -12,7 +12,12 @@ export default function Header () {
     <div className="flex h-[120px] flex-col mx-auto justify-between px-[50px] py-[30px]">
       <header className="flex items-center justify-between">
         <Link href='/' aria-label="myMind"  className="p-4 font-medium text-gray-900">
-          myMind
+          <Image 
+            src={"/Images/logo.png"}
+            width={80}
+            height={80}
+            priority
+          />
         </Link>
         <div className="flex items-center text-lg leading-5">
             <div className="flex mx-8">
