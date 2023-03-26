@@ -14,6 +14,7 @@ export default function Header () {
         <Link href='/' aria-label="myMind"  className="p-4 font-medium text-gray-900">
           <Image 
             src={"/Images/logo.png"}
+            alt={"MyMind Logo"}
             width={80}
             height={80}
             priority

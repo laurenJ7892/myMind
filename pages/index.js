@@ -26,6 +26,7 @@ export default function Home() {
           width={500}
           height={500}
           className="flex items-center m-auto"
+          priority
         />
         </div>
         <div className="flex h-full w-[60%] mt-[100px] md:mt-8 mx-auto text-lg bg-gray-200">

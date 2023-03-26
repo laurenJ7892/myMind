@@ -42,7 +42,7 @@ export default function SignUp() {
       <Header />
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mx-auto text-5xl text-cyan-800">LOGIN</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">LOGIN</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -81,7 +81,7 @@ export default function SignUp() {
               Login
            </button>
          </form>
-         <Link href='/reset-password' aria-label="reset-your-password"  className="flex p-4 mt-4 justify-end text-base font-light text-black-200">
+         <Link href='/request-reset' aria-label="reset-your-password"  className="flex p-4 mt-4 justify-end text-base font-light text-black-200">
           Forgot your password?
         </Link>
         </div>

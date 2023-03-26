@@ -76,11 +76,11 @@ export default function SignUp() {
       
       Router.push('/')
     } else {
-      if (error.contains("already registered")) {
+      if (error.message.contains("already registered")) {
         setError("Oops it looks like you have already registered! Please try to sign in")
       }
       else {
-        setError(error)
+        setError(error.message)
       }
       return;
     }
@@ -93,7 +93,7 @@ export default function SignUp() {
       <Header />
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[90%] mx-auto text-5xl text-cyan-800">SIGN UP</h2>
+         <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">SIGN UP</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex justify-between mx-auto w-[95%] md:w-full grid grid-cols grid-cols-1 md:flex">
             <input 

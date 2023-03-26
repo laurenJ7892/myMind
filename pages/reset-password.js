@@ -16,6 +16,31 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password != passwordConfirm) {
+      setError("Please review your email. They do not match! ")
+      return;
+    }
+
+    if (!(/(?=.*\d)/.test(password))){
+      setError("Please make sure your password has at least one number character")
+      return;
+    }
+
+    if (!(/(?=.*\W)/.test(password))) {
+      setError("Please make sure your password has at least one special character")
+      return;
+    }
+
+    if (!(/(?=.*[A-Z])/.test(password))) {
+      setError("Please make sure your password has at least one uppercase character")
+      return;
+    }
+
+    if (!(/(?=.*[a-z])/.test(password))) {
+      setError("Please make sure your password has at least one lowercase character")
+      return;
+    }
   
     const { data, error } = await supabase.auth.updateUser({
       password: password,
@@ -41,7 +66,7 @@ export default function ResetPassword() {
       <Header />
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mx-auto text-5xl text-cyan-800">RESET PASSWORD</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">RESET PASSWORD</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -50,6 +75,7 @@ export default function ResetPassword() {
               required
               id="password"
               name="password"
+              minLength="6"
               placeholder="NEW PASSWORD"
               onChange={(e) => {
                 setPassword(e.target.value)
@@ -69,7 +95,7 @@ export default function ResetPassword() {
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}
-              value={password}
+              value={passwordConfirm}
             />
            </div>
            {error ? <p>{error}</p> : ''}
