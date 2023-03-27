@@ -1,12 +1,25 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
+import { useEffect } from 'react'
 import Header from "../components/header"
-
+import Router from 'next/router'
+import { useUser } from "../lib/context"
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const { setUser, user } = useUser()
+  
+  useEffect(() => {
+    const json = localStorage.getItem("sb-suleascckvruxdkgklay-auth-token")
+    const data = JSON.parse(json)
+    if (data) {
+      setUser(data.user)
+      Router.push("/dashboard")
+    }
+  }, [])
+
   return (
     <>
     {/* TO DO Make Head a component for SEO */}
@@ -30,18 +43,12 @@ export default function Home() {
         />
         </div>
         <div className="flex h-full w-[60%] mt-[100px] md:mt-8 mx-auto text-lg bg-gray-200">
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Depression Quiz
-            </h2>
-            <p>
-              TO DO CONTENT HERE
-            </p>
-          </a>
+          <h2>
+            Depression Quiz
+          </h2>
+          <p>
+            TO DO CONTENT HERE
+          </p>
         </div>
       </main>
     </>

@@ -2,14 +2,17 @@ import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
 import Router from 'next/router'
+
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
+import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function SignUp() {
-  const { setUser, setSession } = useUser()
+  const { setUser, setSession, user } = useUser()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -36,7 +39,7 @@ export default function SignUp() {
   }
 
   const disabled = (email != "") && (password != "")
-
+  
   return (
     <>
       <Header />
