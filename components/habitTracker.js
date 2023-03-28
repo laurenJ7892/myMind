@@ -53,7 +53,7 @@ export default function HabitTracker() {
         <button className="flex mt-5 md:mt-10 justify-center bg-blue-200 p-4 w-[90%] rounded-[20px] text-lg font-medium">Create Habit</button>
       </div>
       </div>
-      <div className="flex mt-10 items-center justify-center w-[90%] md:w-[100%]">
+      <div className="flex mt-10 items-center mx-auto justify-center w-[90%] md:w-[100%]">
         {habits && !!Object.keys(habits).length > 0 ?
         <div>
           <h2>Daily Habit</h2>
