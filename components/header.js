@@ -9,19 +9,20 @@ export default function Header () {
 
   return (
     <>
-    <div className="flex h-[120px] flex-col mx-auto justify-between px-[50px] py-[30px]">
+    <div className="flex h-[150px] flex-col mx-auto justify-between px-[50px] py-[30px]">
       <header className="flex items-center justify-between">
         <Link href='/' aria-label="myMind"  className="p-4 font-medium text-gray-900">
           <Image 
             src={"/Images/logo.png"}
             alt={"MyMind Logo"}
-            width={80}
-            height={80}
+            width={100}
+            height={100}
             priority
           />
         </Link>
         <div className="flex items-center text-lg leading-5">
-            <div className="flex mx-8">
+          {/* TO DO: ITERATION 2 */}
+            {/* <div className="flex mx-8">
               {headerNavLinks.map((link) => (
                 <Link
                   key={link.title}
@@ -31,7 +32,7 @@ export default function Header () {
                   {link.title}
                 </Link>
               ))}
-            </div>
+            </div> */}
             <div className="flex">
             {user && user.role == 'authenticated' ? <>
                 <Link 
