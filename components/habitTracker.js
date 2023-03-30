@@ -6,10 +6,11 @@ var utc = require('dayjs/plugin/utc')
 import { useUser } from "../lib/context"
 import { supabase }  from '../lib/supabaseClient'
 import Modal from "../components/modal"
+import EditModal from "../components/editModal"
 
 dayjs.extend(utc)
 
-export default function HabitTracker({ props }) {
+export default function HabitTracker(data) {
   const [date, setDate] = useState(dayjs(new Date()))
   const { user, habits, setHabits } = useUser()
   const [visible, setVisible] = useState(false)
@@ -23,9 +24,11 @@ export default function HabitTracker({ props }) {
     const { data, error } = await supabase
       .from('user_habits')
       .select(`
+        id,
         user_id,
         description,
         habits (
+          id,
           name,
           description
         ),
@@ -80,7 +83,7 @@ export default function HabitTracker({ props }) {
                   {habits.map(row => (
                   <tr>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{new Date(row.created_at).toLocaleDateString('en-AU')}</td>
-                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.habits.name}</td>
+                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.habits?.name}</td>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.description}</td>
                   </tr>
                   ))}
@@ -103,8 +106,8 @@ export default function HabitTracker({ props }) {
           </button>
         }
       </div>
-      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={props} utcDate={date.$d.toUTCString()} date={new Date(date.$d).toISOString().substr(0, 10)} /> : ''}
-      { editVisible ? '' : ''}
+      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={new Date(date.$d).toISOString().substr(0, 10)} /> : ''}
+      { editVisible ? <EditModal data={data} /> : ''}
       {/* TO DO: Metrics */}
       {/* <p className="flex items-center justify-center w-[90%] mb-5"> Commentary about habits</p> */}
     </div>

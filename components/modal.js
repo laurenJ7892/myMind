@@ -28,7 +28,6 @@ const Modal = ({ heading, text, route, data, date, utcDate }) => {
         created_at: utcDate
        })
 
-    console.log(error)
     if (!error) {
       alert("Saved")
       setShowModal(false)
@@ -63,7 +62,7 @@ const Modal = ({ heading, text, route, data, date, utcDate }) => {
                 { data ? (
                 <>
                   <select className={"ml-2 w-70%"} onChange={(e) => setHabit(e.currentTarget.value)}>
-                    {data.map(row =>
+                    {data.props.map(row =>
                       <option key={row.id} value={row.id}>{row.name}</option>
                     )}
                   </select>
