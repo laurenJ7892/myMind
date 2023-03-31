@@ -5,7 +5,7 @@ import { useUser } from "../lib/context"
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 
-const EditModal = ({ data }) => {
+const EditModal = ({ data, habit }) => {
   const [showModal, setShowModal] = useState(true)
   const [date, setDate] = useState(null)
   const [habitId, setHabitId] = useState(null)
@@ -18,9 +18,9 @@ const EditModal = ({ data }) => {
   }
 
   const handleSubmit = async () => {
-    const utcDate = date ? new Date(date).toUTCString() : habits[0].created_at
-    const habit_id = habitId ? habitId : habits[0].habits && habits[0].habits.id ? habits[0].habits.id : 0
-    const updatedNotes = notes ? notes : habits[0].description
+    const utcDate = date ? new Date(date).toUTCString() : habit.created_at
+    const habit_id = habitId ? habitId : habit && habit.habits.id ? habit.habits.id : 0
+    const updatedNotes = notes ? notes : habit.description
 
     const { data, error } = await supabase
       .from('user_habits')
@@ -29,7 +29,7 @@ const EditModal = ({ data }) => {
         description: updatedNotes,
         created_at: utcDate
         })
-       .eq('id', habits[0].id)
+       .eq('id', habit.id)
        .select()
 
     if (!error) {
@@ -57,11 +57,17 @@ const EditModal = ({ data }) => {
               </div>
               <div className="relative flex-auto ml-5 p-2">
                 <label>Date</label>
-                <input type="date" value={new Date(habits[0].created_at).toISOString().substring(0, 10)} className={"p-3"} onChange={(e) => setDate(e.currentTarget.value)}/>
+                <input 
+                  type="date" 
+                  value={habit.created_at ? new Date(habit.created_at).toISOString().substring(0, 10) : new Date()} 
+                  className={"p-3"} 
+                  onChange={(e) => setDate(e.currentTarget.value)}/>
               </div>
               <div className="relative flex p-2 ml-5">
                 {habits ? 
-                <select className={"ml-2 w-70%"} defaultValue={habits[0].habits ? habits[0].habits.id : 0 } onChange={(e) => setHabitId(e.currentTarget.value)}>
+                <select className={"ml-2 w-70%"} 
+                  defaultValue={habit.habits ? habit.habits.id : 0 } 
+                  onChange={(e) => setHabitId(e.currentTarget.value)}>
                   {data.props.map(row =>
                     <option key={row.id} value={row.id}>{row.name}</option>
                   )}
@@ -70,7 +76,7 @@ const EditModal = ({ data }) => {
                 <input 
                   type="text" 
                   id="notes" 
-                  placeholder={habits[0].description} 
+                  placeholder={habit.description ? habit.description : "Add Note"} 
                   maxlength="100" 
                   className={"p-3 mx-auto ml-3 w-[90%]"} 
                   value={notes}

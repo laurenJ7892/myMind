@@ -3,7 +3,8 @@ import Router from 'next/router'
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 
-const Modal = ({ heading, text, route, data, date, utcDate }) => {
+const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
+  console.log(deleteHabit)
   const [showModal, setShowModal] = useState(true)
   const { user } = useUser()
   const [habit, setHabit] = useState(0)
@@ -39,6 +40,23 @@ const Modal = ({ heading, text, route, data, date, utcDate }) => {
     }
   }
 
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from('user_habits')
+      .delete()
+      .eq('id', deleteHabit.id)
+
+    if (!error) {
+      alert("Deleted")
+      setShowModal(false)
+      if (route) {
+        Router.push(route)
+      } else {
+        Router.push("/")
+      }
+    }
+  }
+
   return (
     <div>
       {showModal ? (
@@ -57,11 +75,20 @@ const Modal = ({ heading, text, route, data, date, utcDate }) => {
                 <input type="date" disabled value={date} className={"p-3"}/>
               </div>
             ) : '' }
+             { deleteHabit ? (
+              <div className="relative flex-auto ml-5 p-2">
+                <label>Date</label>
+                <input type="date" disabled value={new Date(deleteHabit.created_at).toISOString().substring(0, 10)} className={"p-3"}/>
+              </div>
+            ) : '' }
               <div className="relative flex p-2 ml-5">
                 <p className="my-2 text-md leading-relaxed text-cyan-800">{text}</p>
                 { data ? (
                 <>
-                  <select className={"ml-2 w-70%"} onChange={(e) => setHabit(e.currentTarget.value)}>
+                  <select className={"ml-2 w-70%"} 
+                    defaultValue={deleteHabit ? deleteHabit.habits.id : 0} 
+                    disabled={deleteHabit ? true : false}
+                    onChange={(e) => setHabit(e.currentTarget.value)}>
                     {data.props.map(row =>
                       <option key={row.id} value={row.id}>{row.name}</option>
                     )}
@@ -70,10 +97,16 @@ const Modal = ({ heading, text, route, data, date, utcDate }) => {
                 )
                 : '' }
               </div>
-              { data ?
+              { date ?
               <>
                 <input type="text" id="notes" placeholder="Add notes?" maxlength="100" className={"p-3 mx-auto ml-3 w-[90%]"} onChange={(e) => setNotes(e.currentTarget.value)}/>
                 <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleSubmit}>Submit</button> 
+              </>
+              : '' }
+               { deleteHabit ?
+              <>
+                <input type="text" id="notes" placeholder="Add notes?" maxlength="100" className={"p-3 mx-auto ml-3 w-[90%]"} disabled/>
+                <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleDelete}>Delete</button> 
               </>
               : '' }
             </div>
