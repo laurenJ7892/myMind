@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
@@ -15,6 +16,7 @@ export default function LogIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  const [passwordInput, setPasswordInput] = useState("password")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +40,14 @@ export default function LogIn() {
   }
 
   const disabled = (email != "") && (password != "")
+
+  const togglePassword = () => {
+    if (passwordInput === "password") {
+      setPasswordInput("text")
+    } else {
+      setPasswordInput("password")
+    }
+  }
   
   return (
     <>
@@ -62,7 +72,7 @@ export default function LogIn() {
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
-              type="password"
+              type={passwordInput}
               className="py-5 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%]"
               required
               minLength="6"
@@ -74,6 +84,12 @@ export default function LogIn() {
               }}
               value={password}
             />
+             <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            {error ? <p className={"flex mx-auto w-[95%] md:w-full my-5"}>{error}</p> : ''}
            <button

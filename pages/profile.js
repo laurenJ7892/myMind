@@ -1,4 +1,5 @@
 import { Inter } from '@next/font/google'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Header from "../components/header"
@@ -23,6 +24,8 @@ export default function Profile() {
   const [passwordTab, setPasswordTab] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
+
+  const [passwordInput, setPasswordInput] = useState("password")
 
   const handleSubmit = async (e) => {
     if (user && user.user_metadata) {
@@ -71,6 +74,14 @@ export default function Profile() {
     setError(null)
     setAccountTab(false)
     setPasswordTab(true)
+  }
+
+  const togglePassword = () => {
+    if (passwordInput === "password") {
+      setPasswordInput("text")
+    } else {
+      setPasswordInput("password")
+    }
   }
 
   const handlePasswordChange = async (e) => {
@@ -207,7 +218,7 @@ export default function Profile() {
           <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
-              type="password"
+              type={passwordInput}
               className="py-5 mx-auto text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800  w-[90%] md:w-[80%]"
               required
               id="password"
@@ -219,10 +230,16 @@ export default function Profile() {
               }}
               value={password}
             />
+              <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
-              type="password"
+              type={passwordInput}
               className="py-5 mx-auto text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[90%] md:w-[80%]"
               required
               minLength="6"
@@ -234,6 +251,12 @@ export default function Profile() {
               }}
               value={passwordConfirm}
             />
+              <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            {error ? <p>{error}</p> : ''}
            <button

@@ -21,6 +21,8 @@ export default function SignUp() {
   const [error, setError] = useState(null)
   const [submitted, setSubmitted] = useState(false)
 
+  const [passwordInput, setPasswordInput] = useState("password")
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,6 +89,14 @@ export default function SignUp() {
     }
   }
 
+  const togglePassword = () => {
+    if (passwordInput === "password") {
+      setPasswordInput("text")
+    } else {
+      setPasswordInput("password")
+    }
+  }
+
   const disabled = (firstName != "") && (lastName != "") && (email != "") && (password != "") && (accept) && (emailConfirm != "") && (passwordConfirm != "")
 
   return (
@@ -150,11 +160,11 @@ export default function SignUp() {
                 setEmailConfirm(e.target.value)
               }}
               value={emailConfirm}
-            />
+              />
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
-              type="password"
+              type={passwordInput}
               className="py-5 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%]"
               required
               minLength="6"
@@ -166,10 +176,16 @@ export default function SignUp() {
               }}
               value={password}
             />
+            <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
-              type="password"
+              type={passwordInput}
               className="py-5 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%]"
               required
               id="confirmPassword"
@@ -180,6 +196,12 @@ export default function SignUp() {
               }}
               value={passwordConfirm}
             />
+             <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            <div className="flex mx-auto w-[95%] md:w-full mt-3">
              <input

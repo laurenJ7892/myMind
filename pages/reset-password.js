@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
@@ -15,9 +15,18 @@ export default function ResetPassword() {
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [error, setError] = useState(null)
   const [submitted, setSubmitted] = useState(false)
+  const [passwordInput, setPasswordInput] = useState("password")
 
   const heading = "Password Reset"
   const text = "Your password has been reset"
+
+  const togglePassword = () => {
+    if (passwordInput === "password") {
+      setPasswordInput("text")
+    } else {
+      setPasswordInput("password")
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +91,7 @@ export default function ResetPassword() {
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
-              type="password"
+              type={passwordInput}
               className="py-5 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%]"
               required
               id="password"
@@ -97,7 +106,7 @@ export default function ResetPassword() {
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
-              type="password"
+              type={passwordInput}
               className="py-5 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%]"
               required
               minLength="6"
@@ -109,6 +118,12 @@ export default function ResetPassword() {
               }}
               value={passwordConfirm}
             />
+            <Image 
+                src={"/Images/eye-solid.svg"}
+                height={20}
+                width={20}
+                onClick={togglePassword}
+                alt="show password"/>
            </div>
            {error ? <p>{error}</p> : ''}
            <button
