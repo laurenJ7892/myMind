@@ -5,6 +5,7 @@ import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
+import Modal from "../components/modal"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -67,12 +68,13 @@ export default function SignUp() {
     if (data.user && data.session) {
       setUser(data.user)
       setSession(data.session)
-
+      setSubmitted(true)
+      
       setFirstName('')
       setLastName('')
       setEmail('')
       setPassword('')
-      setSubmitted(true)
+     
       
       Router.push('/dashboard')
     } else {
@@ -92,6 +94,7 @@ export default function SignUp() {
   return (
     <>
       <Header />
+      {submitted ? (<Modal heading={"Signup Success"} text={"Your account has successfully been created"}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">SIGN UP</h2>

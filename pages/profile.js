@@ -20,7 +20,6 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-
     const changedFName = firstName ? firstName : user.user_metadata.first_name;
     const changedLName = lastName ? lastName : user.user_metadata.last_name; 
     const changedEmail = email ? email : user.email;

@@ -4,7 +4,6 @@ import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 
 const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
-  console.log(deleteHabit)
   const [showModal, setShowModal] = useState(true)
   const { user } = useUser()
   const [habit, setHabit] = useState(0)

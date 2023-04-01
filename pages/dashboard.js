@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import Router from 'next/router'
+import { useEffect } from 'react'
+import {useRouter} from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
-
 import HabitTracker from "../components/habitTracker"
 
 export async function getServerSideProps() {
@@ -17,12 +16,14 @@ export async function getServerSideProps() {
 }
 
 export default function Dashboard({ data }) {
-  const { user, session } = useUser()
+  const { user } = useUser()
+  const router = useRouter()
 
-  console.log(user)
-  if (user == null || Object.keys(user).length == 0) {
-    Router.push("/")
-  }
+  useEffect(() => {
+    if (!user || Object.keys(user).length == 0) {
+      router.push('/')
+    }
+  }, [])
 
   return (
     <>
