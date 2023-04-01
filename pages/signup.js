@@ -78,11 +78,9 @@ export default function SignUp() {
       
       Router.push('/dashboard')
     } else {
-      // TO DO: Check error handling here
-      if (error.message.contains("already registered")) {
-        setError("Oops it looks like you have already registered! Please try to sign in")
-      }
-      else {
+      if (error.name == "AuthApiError"){
+        setError("Have you already signed up? Try to login!")
+      } else {
         setError(error.message)
       }
       return;
