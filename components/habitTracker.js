@@ -76,18 +76,19 @@ export default function HabitTracker(data) {
           onChange={handleDate}
         />
         <div className="flex grid grid-rows-2 items-center justify-center w-[100%]">
-          <div className="flex mt-5 mx-auto justify-center w-[90%] md:w-[90%]">
+          <div className="flex mt-5 mx-auto justify-center w-[90%]">
             {habits && !!Object.keys(habits).length > 0 ?
             <div>
               <h2>Habits Logged</h2>
-              <table className="mt-5 table-auto border border-2 border-cyan-800 border-collapse border-spacing-0.5">
+              <table className="mt-5 mx-auto table-fixed md:table-auto border border-2 border-cyan-800 border-collapse border-spacing-0.5">
                 <thead>
                   <tr>
                     <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Date</th>
                     <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Habit</th>
                     <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Notes</th>
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Edit</th>
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Delete</th>
+                    {/* Hide buttons on small devices */}
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 hidden md:table-cell">Edit</th>
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 hidden md:table-cell">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -96,7 +97,7 @@ export default function HabitTracker(data) {
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{new Date(row.created_at).toLocaleDateString('en-AU')}</td>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.habits?.name}</td>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.description}</td>
-                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">
+                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2 hidden md:table-cell">
                     <button 
                         className="flex mx-auto items-center justify-center bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
                         onClick={() => handleEdit(row)}
@@ -104,7 +105,7 @@ export default function HabitTracker(data) {
                       Edit
                       </button>
                     </td>
-                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">
+                    <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2 hidden md:table-cell">
                     <button 
                         className="flex mx-auto items-center justify-center bg-blue-200 p-4 rounded-[20px] text-lg text-black font-medium"
                         onClick={() => handleDelete(row)}>
