@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
@@ -9,7 +10,7 @@ import Modal from "../components/modal"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function ResetPassword() {
-  const { setUser } = useUser()
+  const { setUser, user } = useUser()
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [error, setError] = useState(null)
@@ -22,7 +23,7 @@ export default function ResetPassword() {
     e.preventDefault();
 
     if (password != passwordConfirm) {
-      setError("Please review your email. They do not match! ")
+      setError("Please review your passwords. They do not match! ")
       return;
     }
 
@@ -50,8 +51,6 @@ export default function ResetPassword() {
       password: password,
     });
 
-    console.log(data)
-
     if (data.user) {
       setUser(data.user)
       setPassword('')
@@ -65,6 +64,12 @@ export default function ResetPassword() {
   }
 
   const disabled = (password != "") && (passwordConfirm != "")
+
+  useEffect(() => {
+    if (!user || Object.keys(user).length == 0) {
+      Router.push('/')
+    }
+  }, [])
 
   return (
     <>

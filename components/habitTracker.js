@@ -7,7 +7,6 @@ import { useUser } from "../lib/context"
 import { supabase }  from '../lib/supabaseClient'
 import Modal from "../components/modal"
 import EditModal from "../components/editModal"
-import { DEV_MIDDLEWARE_MANIFEST } from 'next/dist/shared/lib/constants'
 
 dayjs.extend(utc)
 
@@ -23,29 +22,30 @@ export default function HabitTracker(data) {
     setDate(dayjs(e.$d))
     const queryMinDate = new Date(e.$y, e.$M, e.$D)
     const queryMaxDate = new Date(e.$y, e.$M, e.$D+1)
-
-    const { data, error } = await supabase
-      .from('user_habits')
-      .select(`
-        id,
-        user_id,
-        description,
-        habits (
+    if (user) {
+      const { data, error } = await supabase
+        .from('user_habits')
+        .select(`
           id,
-          name,
-          description
-        ),
-        created_at
-        `)
-      .eq('user_id', user.id)
-      .gte(`created_at`, queryMinDate.toUTCString())
-      .lte(`created_at`, queryMaxDate.toUTCString())
-    
-      if (data) {
-        setHabits(data)
-      } else {
-        setHabits({})
-      }
+          user_id,
+          description,
+          habits (
+            id,
+            name,
+            description
+          ),
+          created_at
+          `)
+        .eq('user_id', user.id)
+        .gte(`created_at`, queryMinDate.toUTCString())
+        .lte(`created_at`, queryMaxDate.toUTCString())
+      
+        if (data) {
+          setHabits(data)
+        } else {
+          setHabits({})
+        }
+    }
   }
 
   const handleClick = async () => {   
@@ -69,12 +69,14 @@ export default function HabitTracker(data) {
   return (
     <>
     <div className="mt-5 flex grid grid-rows md:grid-cols md:grid-cols-2 md:grid-flow-col md:h-auto mx-auto w-[90%] bg-gray-100">
-        <DateCalendar 
-          value={date}
-          views={['day']}
-          renderLoading={() => <DayCalendarSkeleton />}
-          onChange={handleDate}
-        />
+      { date ? 
+          <DateCalendar 
+            value={date}
+            views={['day']}
+            renderLoading={() => <DayCalendarSkeleton />}
+            onChange={handleDate}
+          />
+        : '' }
         <div className="flex grid grid-rows-2 items-center justify-center w-[100%]">
           <div className="flex mt-5 mx-auto justify-center w-[90%]">
             {habits && !!Object.keys(habits).length > 0 ?
@@ -93,7 +95,7 @@ export default function HabitTracker(data) {
                 </thead>
                 <tbody>
                   {habits.map(row => (
-                  <tr>
+                  <tr key={row.id}>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{new Date(row.created_at).toLocaleDateString('en-AU')}</td>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.habits?.name}</td>
                     <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2">{row.description}</td>

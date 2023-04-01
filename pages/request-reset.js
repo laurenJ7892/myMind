@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
 import Header from "../components/header"

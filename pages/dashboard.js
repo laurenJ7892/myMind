@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
@@ -9,7 +9,7 @@ export async function getServerSideProps() {
   const { data } = await supabase
       .from('habits')
       .select(`*`)
-  
+
   return {
     props: { data }
   }

@@ -10,14 +10,14 @@ import {supabase} from "../lib/supabaseClient"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { setUser, user } = useUser()
+  const { setUser } = useUser()
   
   useEffect(() => {
     //const json = localStorage.getItem("sb-suleascckvruxdkgklay-auth-token")
     // const data = JSON.parse(json)
     const getData = async () => {
       const { data } = await supabase.auth.getUser()
-      if (data) {
+      if (data && data.user && data.user.id) {
         setUser(data.user)
         Router.push("/dashboard")
       }
