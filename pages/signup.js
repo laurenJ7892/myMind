@@ -211,8 +211,9 @@ export default function SignUp() {
               required
               value={accept}
               type="checkbox"/>
-             <label className="ml-5 text-cyan-800 text-lg">Accept terms and conditions</label>
-
+              <a href="/terms">
+                <label className="ml-5 text-cyan-800 text-lg">Accept <span className="font-bold">terms and conditions</span></label>
+              </a>
            </div>
            {error ? <p>{error}</p> : ''}
            <button
