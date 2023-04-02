@@ -36,24 +36,32 @@ export default function Home() {
       </Head>
       <Header />
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
-        <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[40vh] w-[90%] mx-auto text-2xl font-bold bg-blue-100">
-         <h2 className="flex items-center ml-5">My Mind is a tool for young adults to find resources and use its tools to identify, manage and overcome depression. We do not collect nor utilise personal data and a free source</h2>
-        <Image
-          src="/Images/home.png"
-          alt="My Mind helping manage anxiety"
-          width={500}
-          height={500}
-          className="flex items-center m-auto"
-          priority
-        />
+        <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[60vh] md:h-[40vh] w-[90%] mx-auto text-2xl bg-blue-100">
+          <div className="flex grid grid-rows">
+            <h2 className="flex items-center justify-center text-center font-bold">Take control of your anxiety or depression!</h2>
+            <h4 className="flex items-center justify-center text-center">Start creating healthier self-care habits with the MyMind tracker</h4>
+            <button className="bg-blue-800 text-white rounded-[20px] w-[50%] md:h-[50%] mx-auto">
+              <a href="/signup" className="flex items-center justify-center text-center font-bold">Sign up here</a>
+            </button>
+          </div>
+          <Image
+            src="/Images/home.png"
+            alt="My Mind helping manage anxiety"
+            width={500}
+            height={500}
+            className="flex items-center m-auto"
+            priority
+          />
         </div>
-        <div className="flex h-full w-[60%] mt-[100px] md:mt-8 mx-auto text-lg bg-gray-200">
-          <h2>
-            Depression Quiz
+        <div className="flex grid grid-rows h-full w-[90%] mt-5 md:mt-[100px] md:mt-8 mx-auto text-lg bg-gray-200">
+          <h2 className="flex items-center ml-5 font-bold text-xl">
+            Who are we?
           </h2>
-          <p>
-            TO DO CONTENT HERE
+          <p className="flex items-center w-[90%] mx-auto">
+            MyMind is a tool aimed at first year online students to help manage their anxiety or depression. We are a free resource and collect minimal personal information to best protect your privacy.
           </p>
+          <br />
+          <p className="flex items-center w-[90%] mx-auto">Our goal is to help you create a healthier habits by focusing on what you can do and encouraging self-care behaviours. These behaviours are in line with research from top psychologists to best manage anxiety and depression</p>
         </div>
       </main>
     </>

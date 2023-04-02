@@ -76,7 +76,7 @@ export default function Profile() {
     setPasswordTab(true)
   }
 
-  const togglePassword = () => {
+  const showPassword = () => {
     if (passwordInput === "password") {
       setPasswordInput("text")
     } else {
@@ -234,7 +234,7 @@ export default function Profile() {
                 src={"/Images/eye-solid.svg"}
                 height={20}
                 width={20}
-                onClick={togglePassword}
+                onClick={showPassword}
                 alt="show password"/>
            </div>
            <div className="flex mx-auto w-[95%] md:w-full my-5">
@@ -255,7 +255,7 @@ export default function Profile() {
                 src={"/Images/eye-solid.svg"}
                 height={20}
                 width={20}
-                onClick={togglePassword}
+                onClick={showPassword}
                 alt="show password"/>
            </div>
            {error ? <p>{error}</p> : ''}
