@@ -6,7 +6,7 @@ import { useUser } from "../lib/context"
 const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   const [showModal, setShowModal] = useState(true)
   const { user } = useUser()
-  const [habit, setHabit] = useState(0)
+  const [habit, setHabit] = useState(2)
   const [notes, setNotes] = useState('')
 
   const handleClick = () => {
@@ -36,6 +36,8 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
       } else {
         Router.push("/")
       }
+    } else {
+      alert(error.message)
     }
   }
 
@@ -85,7 +87,7 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
                 { data ? (
                 <>
                   <select className={"ml-2 w-70%"} 
-                    defaultValue={deleteHabit ? deleteHabit.habits.id : 0} 
+                    defaultValue={deleteHabit ? deleteHabit.habits.id : 2} 
                     disabled={deleteHabit ? true : false}
                     onChange={(e) => setHabit(e.currentTarget.value)}>
                     {data.props.map(row =>

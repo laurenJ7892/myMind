@@ -5,10 +5,12 @@ import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import HabitTracker from "../components/habitTracker"
 
+
 export async function getServerSideProps() {
   const { data } = await supabase
       .from('habits')
       .select(`*`)
+
 
   return {
     props: { data }
@@ -16,12 +18,36 @@ export async function getServerSideProps() {
 }
 
 export default function Dashboard({ data }) {
-  const { user } = useUser()
+  const { user, setAllHabits } = useUser()
   const router = useRouter()
+
+  const getHabitData = async () => {
+    const { data } = await supabase
+      .from('user_habits')
+      .select(`
+        id,
+        user_id,
+        description,
+        habits (
+          id,
+          name,
+          description
+        ),
+        created_at
+        `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true })
+    
+    if (data) {
+      setAllHabits(data)
+    }
+  }
 
   useEffect(() => {
     if (!user || Object.keys(user).length == 0) {
       router.push('/')
+    } else {
+      getHabitData()
     }
   }, [])
 
@@ -42,7 +68,7 @@ export default function Dashboard({ data }) {
         </p>
         </div>
         <div>
-          <HabitTracker props={data} />
+          <HabitTracker props={data}  />
         </div>
       </main>
     </>

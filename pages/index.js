@@ -53,14 +53,13 @@ export default function Home() {
             priority
           />
         </div>
-        <div className="flex grid grid-rows h-full w-[90%] mt-5 md:mt-[100px] md:mt-8 mx-auto text-lg bg-gray-200">
+        <div className="flex grid grid-rows h-full w-[90%] mt-5 md:mt-[5] md:mt-8 mx-auto text-lg bg-gray-200 p-10">
           <h2 className="flex items-center ml-5 font-bold text-xl">
             Who are we?
           </h2>
           <p className="flex items-center w-[90%] mx-auto">
             MyMind is a tool aimed at first year online students to help manage their anxiety or depression. We are a free resource and collect minimal personal information to best protect your privacy.
           </p>
-          <br />
           <p className="flex items-center w-[90%] mx-auto">Our goal is to help you create a healthier habits by focusing on what you can do and encouraging self-care behaviours. These behaviours are in line with research from top psychologists to best manage anxiety and depression</p>
         </div>
       </main>

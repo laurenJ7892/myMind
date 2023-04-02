@@ -7,12 +7,13 @@ import { useUser } from "../lib/context"
 import { supabase }  from '../lib/supabaseClient'
 import Modal from "../components/modal"
 import EditModal from "../components/editModal"
+import Metrics from "../components/metrics"
 
 dayjs.extend(utc)
 
 export default function HabitTracker(data) {
-  const [date, setDate] = useState(dayjs(new Date()))
   const { user, habits, setHabits } = useUser()
+  const [date, setDate] = useState(dayjs(new Date()))
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
   const [deleteHabit, setDeleteHabit] = useState(false)
@@ -68,7 +69,7 @@ export default function HabitTracker(data) {
   
   return (
     <>
-    <div className="mt-5 flex grid grid-rows md:grid-cols md:grid-cols-2 md:grid-flow-col md:h-auto mx-auto w-[90%] bg-gray-100">
+    <div className="mt-5 flex grid grid-rows md:grid-cols md:grid-cols-2 lg:grid-cols-3 md:h-auto mx-auto w-[90%] bg-gray-100">
       { date ? 
           <DateCalendar 
             value={date}
@@ -77,8 +78,8 @@ export default function HabitTracker(data) {
             onChange={handleDate}
           />
         : '' }
-        <div className="flex grid grid-rows-2 items-center justify-center w-[100%]">
-          <div className="flex mt-5 mx-auto justify-center w-[90%]">
+        <div className="flex grid grid-rows-2 items-center justify-center w-[90%]">
+          <div className="flex mt-5 mx-auto justify-center w-[100%]">
             {habits && !!Object.keys(habits).length > 0 ?
             <div>
               <h2>Habits Logged</h2>
@@ -131,8 +132,7 @@ export default function HabitTracker(data) {
       { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={new Date(date.$d).toISOString().substr(0, 10)} /> : ''}
       { deleteHabit ? <Modal heading={"Delete Habit"} text={"Are you sure you want to delete your habit"} deleteHabit={editHabit} data={data} /> : ''}
       { editVisible ? <EditModal data={data} habit={editHabit} /> : ''}
-      {/* TO DO: Metrics */}
-      {/* <p className="flex items-center justify-center w-[90%] mb-5"> Commentary about habits</p> */}
+      <Metrics />
     </div>
     </>
   )
