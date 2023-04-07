@@ -4,7 +4,7 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline';
   style-src 'self' 'unsafe-inline';
-  img-src * blob: data:;
+  img-src * 'self' data:image/svg+xml;
   media-src 'none';
   connect-src *;
   font-src 'self';

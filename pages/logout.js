@@ -37,7 +37,7 @@ export default function Logout() {
       {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">LOGOUT</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">Logout</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             Are you sure you want to log out?

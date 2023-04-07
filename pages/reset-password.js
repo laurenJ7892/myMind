@@ -87,7 +87,7 @@ export default function ResetPassword() {
       {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">RESET PASSWORD</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">Reset password</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -97,7 +97,7 @@ export default function ResetPassword() {
               id="password"
               name="password"
               minLength="6"
-              placeholder="NEW PASSWORD"
+              placeholder="New password"
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -112,7 +112,7 @@ export default function ResetPassword() {
               minLength="6"
               id="passwordConfirm"
               name="passwordConfirm"
-              placeholder="CONFIRM NEW PASSWORD"
+              placeholder="Confirm new password"
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}

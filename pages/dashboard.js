@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Lottie from 'lottie-react'
+import celebrate from "../public/Animations/celebrate.json"
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import HabitTracker from "../components/habitTracker"
-
+import Metrics from "../components/metrics"
+import Modal from "../components/modal"
 
 export async function getServerSideProps() {
   const { data } = await supabase
@@ -18,8 +21,9 @@ export async function getServerSideProps() {
 }
 
 export default function Dashboard({ data }) {
-  const { user, setAllHabits } = useUser()
+  const { user, setAllHabits, successModal, setSuccessModal } = useUser()
   const router = useRouter()
+ 
 
   const getHabitData = async () => {
     const { data } = await supabase
@@ -48,26 +52,27 @@ export default function Dashboard({ data }) {
       router.push('/')
     } else {
       getHabitData()
+      setSuccessModal(false)
     }
   }, [])
 
   return (
     <>
       <Header />
-      <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
-        <div className="flex grid grid-rows md:grid-cols md:grid-cols-1 mt-5 flex h-[40vh] md:h-[40vh] w-[90%] mx-auto text-2xl font-bold bg-blue-100">
-          <h2 className="flex items-center mx-auto md:mt-5 w-[90%]">Hey there {user?.user_metadata?.first_name}</h2>
-          <p className="flex w-[90%] text-base mx-auto h-[20vh] md:h-[15vh]">
-            A mini habit is a very small positive behaviour that you force yourself to do every day.
-            <br></br>
-            <br></br>
-            Small steps work every time. Remember habits are built by consistency, not perfection.
-            <br></br>
-            <br></br>
-            What will be a positive action that you can do for yourself today?
-        </p>
+      {successModal ? 
+        <>
+          <Lottie animationData={celebrate} loop={false} />
+          <Modal heading="Congratulations" text="You prioritised and took time for yourself!"/>
+        </>
+        : '' }
+      <main className="flex grid grid-cols grid-cols-1 w-[100vw] h-[90vh]">
+        <div className="flex h-[5vh] md:h-[5vh] w-[100%] mx-auto">
+          <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">Welcome back {user?.user_metadata?.first_name} !</h2>
         </div>
-        <div>
+        <div className="flex grid grid-rows h-[50vh] md:h-[30vh] w-[100%] mx-auto">
+         <Metrics />
+        </div>
+        <div div className="flex">
           <HabitTracker props={data}  />
         </div>
       </main>

@@ -143,14 +143,14 @@ export default function Profile() {
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
         <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[70vh] w-[90%] mx-auto bg-blue-100">
           <div className="flex grid grid-rows mx-auto my-auto">
-           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-5" onClick={toggleActive}>Account Information</button>
-           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-5" onClick={togglePassword}>Change Password</button>
+           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-5" onClick={toggleActive}>Account information</button>
+           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-5" onClick={togglePassword}>Change password</button>
           </div>
           <div className={accountTab ? 'visible' : 'hidden'}>
             <h2 className="flex items-center my-5 mx-auto justify-center text-2xl font-bold w-[100%] ">Your account information</h2>
             <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%] text-xl font-medium"> 
-              <div className="mx-auto w-[80%]">
-                  <label className="mx-5">First Name</label>
+              <div className="mx-auto w-[90%]">
+                  <label className="mx-2">First name</label>
                   <input 
                     type="text"
                     required
@@ -165,8 +165,8 @@ export default function Profile() {
                     value={firstName}
                   />
                 </div>
-                <div className="mx-auto w-[80%]">
-                <label className="mx-5">Last Name</label>
+                <div className="mx-auto w-[90%]">
+                <label className="mx-2">Last name</label>
                 <input
                   type="text"
                   className="p-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
@@ -181,11 +181,11 @@ export default function Profile() {
                   value={lastName}
                   />
               </div>
-              <div className="mx-auto w-[80%]">
-              <label className="mx-7">Email</label>
+              <div className="mx-auto w-[90%]">
+              <label className="mx-2">Email </label>
                 <input
                   type="email"
-                  className="p-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
+                  className="p-4 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
                   required
                   id="email"
                   name="email"
@@ -201,7 +201,7 @@ export default function Profile() {
               {disabled ?  
                 <button
                     onClick={() => setDisabled(false)}
-                    className="flex justify-center mx-auto w-[95%] md:w-[40%] mt-5 md:mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
+                    className="flex justify-center mx-auto w-[100%] md:w-[30%] mt-5 md:mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
                     Edit
                 </button> : 
                 <button
@@ -224,7 +224,7 @@ export default function Profile() {
               id="password"
               name="password"
               minLength="6"
-              placeholder="NEW PASSWORD"
+              placeholder="New Password"
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -245,7 +245,7 @@ export default function Profile() {
               minLength="6"
               id="passwordConfirm"
               name="passwordConfirm"
-              placeholder="CONFIRM NEW PASSWORD"
+              placeholder="Confirm new password"
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}

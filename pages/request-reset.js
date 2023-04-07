@@ -51,7 +51,7 @@ const RequestReset = () => {
       {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] md:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">REQUEST PASSWORD RESET</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">Password Reset</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -60,7 +60,7 @@ const RequestReset = () => {
               required
               id="email"
               name="email"
-              placeholder="YOUR EMAIL"
+              placeholder="Your email"
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
@@ -74,7 +74,7 @@ const RequestReset = () => {
               required
               id="emailConfirm"
               name="emailConfirm"
-              placeholder="CONFIRM NEW EMAIL"
+              placeholder="Confirm your email"
               onChange={(e) => {
                 setEmailConfirm(e.target.value)
               }}

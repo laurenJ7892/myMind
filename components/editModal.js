@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Router from 'next/router'
+
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import dayjs from 'dayjs'
@@ -10,7 +11,7 @@ const EditModal = ({ data, habit }) => {
   const [date, setDate] = useState(null)
   const [habitId, setHabitId] = useState(null)
   const [notes, setNotes] = useState('')
-  const { user, setHabits, habits } = useUser()
+  const { user, setHabits, habits, setSuccessModal } = useUser()
 
   const handleClick = () => {
     setShowModal(false)
@@ -19,7 +20,7 @@ const EditModal = ({ data, habit }) => {
 
   const handleSubmit = async () => {
     const utcDate = date ? new Date(date).toUTCString() : habit.created_at
-    const habit_id = habitId ? habitId : habit && habit.habits.id ? habit.habits.id : 0
+    const habit_id = habitId ? habitId : habit && habit.habits && habit.habits.id ? habit.habits.id : 2
     const updatedNotes = notes ? notes : habit.description
 
     const { data, error } = await supabase
@@ -31,13 +32,11 @@ const EditModal = ({ data, habit }) => {
         })
        .eq('id', habit.id)
        .select()
-
-    if (!error) {
-      alert("Updated")
-      setShowModal(false)
+    
+    if (data) {
       setHabits(data)
-      
-      Router.push("/")
+      setShowModal(false)
+      setSuccessModal(true)
     } else {
       console.log(error)
     }
@@ -46,6 +45,7 @@ const EditModal = ({ data, habit }) => {
   return (
     <div>
       {showModal ? (
+        <>
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
           <div className="relative my-6 mx-auto w-[75%] max-w-lg">
             <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
@@ -66,7 +66,7 @@ const EditModal = ({ data, habit }) => {
               <div className="relative flex p-2 ml-5">
                 {habits ? 
                 <select className={"ml-2 w-70%"} 
-                  defaultValue={habit.habits ? habit.habits.id : 0 } 
+                  defaultValue={habit.habits ? habit.habits.id : 2 } 
                   onChange={(e) => setHabitId(e.currentTarget.value)}>
                   {data.props.map(row =>
                     <option key={row.id} value={row.id}>{row.name}</option>
@@ -77,7 +77,7 @@ const EditModal = ({ data, habit }) => {
                   type="text" 
                   id="notes" 
                   placeholder={habit.description ? habit.description : "Add Note"} 
-                  maxlength="100" 
+                  maxLength="100" 
                   className={"p-3 mx-auto ml-3 w-[90%]"} 
                   value={notes}
                   onChange={(e) => setNotes(e.currentTarget.value)}/>
@@ -85,6 +85,7 @@ const EditModal = ({ data, habit }) => {
             </div>
           </div>
         </div>
+        </>
       ) : (
         ''
       )}

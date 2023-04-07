@@ -105,13 +105,13 @@ export default function SignUp() {
       {submitted ? (<Modal heading={"Signup Success"} text={"Your account has successfully been created"}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">SIGN UP</h2>
+         <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">Sign up</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex justify-between mx-auto w-[95%] md:w-full grid grid-cols grid-cols-1 md:flex">
             <input 
               type="text"
               required
-              placeholder="FIRST NAME"
+              placeholder="First name"
               id="name"
               name="name"
               className="py-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 md:w-[50%] my-5 md:mt-0"
@@ -127,7 +127,7 @@ export default function SignUp() {
               required
               id="lastName"
               name="lastName"
-              placeholder="LAST NAME"
+              placeholder="Last name"
               onChange={(e) => {
                 setLastName(e.target.value)
               }}
@@ -141,7 +141,7 @@ export default function SignUp() {
               required
               id="email"
               name="email"
-              placeholder="EMAIL"
+              placeholder="Email"
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
@@ -155,7 +155,7 @@ export default function SignUp() {
               required
               id="confirmEmail"
               name="confirmEmail"
-              placeholder="CONFIRM EMAIL"
+              placeholder="Confirm email"
               onChange={(e) => {
                 setEmailConfirm(e.target.value)
               }}
@@ -170,7 +170,7 @@ export default function SignUp() {
               minLength="6"
               id="password"
               name="password"
-              placeholder="PASSWORD"
+              placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -190,7 +190,7 @@ export default function SignUp() {
               required
               id="confirmPassword"
               name="confirmPassword"
-              placeholder="CONFIRM PASSWORD"
+              placeholder="Confirm Password"
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}
@@ -212,7 +212,7 @@ export default function SignUp() {
               value={accept}
               type="checkbox"/>
               <a href="/terms">
-                <label className="ml-5 text-cyan-800 text-lg">Accept <span className="font-bold">terms and conditions</span></label>
+                <label className="ml-5 text-cyan-800 text-lg">Accept our <span className="underline">terms and conditions</span></label>
               </a>
            </div>
            {error ? <p>{error}</p> : ''}
@@ -220,7 +220,7 @@ export default function SignUp() {
               disabled={!disabled}
               onClick={handleSubmit}
               className="flex justify-center mx-auto w-[95%] md:w-full mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
-              SIGN UP
+              Sign up
            </button>
          </form>
         </div>

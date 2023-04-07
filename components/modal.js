@@ -5,12 +5,14 @@ import { useUser } from "../lib/context"
 
 const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   const [showModal, setShowModal] = useState(true)
-  const { user } = useUser()
+  const { user, setSuccessModal, session } = useUser()
   const [habit, setHabit] = useState(2)
   const [notes, setNotes] = useState('')
 
   const handleClick = () => {
     setShowModal(false)
+    setSuccessModal(false)
+    console.log(session)
     if (route) {
       Router.push(route)
     } else {
@@ -29,13 +31,8 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
        })
 
     if (!error) {
-      alert("Saved")
       setShowModal(false)
-      if (route) {
-        Router.push(route)
-      } else {
-        Router.push("/")
-      }
+      setSuccessModal(true)
     } else {
       alert(error.message)
     }
@@ -47,15 +44,8 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
       .delete()
       .eq('id', deleteHabit.id)
 
-    if (!error) {
-      alert("Deleted")
       setShowModal(false)
-      if (route) {
-        Router.push(route)
-      } else {
-        Router.push("/")
-      }
-    }
+      Router.push("/")
   }
 
   return (
@@ -100,13 +90,13 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
               </div>
               { date ?
               <>
-                <input type="text" id="notes" placeholder="Add notes?" maxlength="100" className={"p-3 mx-auto ml-3 w-[90%]"} onChange={(e) => setNotes(e.currentTarget.value)}/>
+                <input type="text" id="notes" placeholder="Add notes?" maxLength="100" className={"p-3 mx-auto ml-3 w-[90%]"} onChange={(e) => setNotes(e.currentTarget.value)}/>
                 <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleSubmit}>Submit</button> 
               </>
               : '' }
                { deleteHabit ?
               <>
-                <input type="text" id="notes" placeholder="Add notes?" maxlength="100" className={"p-3 mx-auto ml-3 w-[90%]"} disabled/>
+                <input type="text" id="notes" placeholder="Add notes?" maxLength="100"  value={deleteHabit.description} className={"p-3 mx-auto ml-3 w-[90%]"} disabled/>
                 <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleDelete}>Delete</button> 
               </>
               : '' }
