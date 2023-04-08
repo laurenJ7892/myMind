@@ -62,7 +62,7 @@ export default function Dashboard({ data }) {
       {successModal ? 
         <>
           <Lottie animationData={celebrate} loop={false} />
-          <Modal heading="Congratulations" text="You prioritised and took time for yourself!"/>
+          <Modal heading="Congratulations" text="You took time and prioritised your well-being!"/>
         </>
         : '' }
       <main className="flex grid grid-cols grid-cols-1 w-[100vw] h-[90vh]">
@@ -74,6 +74,9 @@ export default function Dashboard({ data }) {
         </div>
         <div div className="flex">
           <HabitTracker props={data}  />
+        </div>
+        <div className="flex grid grid-rows h-[30vh] md:h-[35vh] w-[90%] mx-auto justify-left">
+          Set a weekly goal to focus on this week
         </div>
       </main>
     </>

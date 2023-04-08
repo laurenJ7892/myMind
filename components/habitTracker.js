@@ -120,6 +120,7 @@ export default function HabitTracker(data) {
       requestAbortController.current = ac
   }
 
+  // MUI Component instructions to get it to load and overlay data
   function ServerDay(props) {
     const isSelected = !props.outsideCurrentMonth && props.highlightedDays.indexOf(props.day.date()) >= 0;
     return (

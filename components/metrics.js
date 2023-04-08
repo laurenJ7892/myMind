@@ -12,11 +12,14 @@ export default function Metrics () {
   const [streak, setStreak] = useState()
   const [streakStart, setStreakStart] = useState(null)
   const [streakEnd, setStreakEnd] = useState(null)
+  const [habitType, setHabitType] = useState(null)
+  const [habitActivities, setHabitActivities] = useState(null)
 
   useEffect(() => {
     if (!user || Object.keys(user).length == 0 || !allHabits) {
       
     } else {
+      // Habit counter by day
       let dateResult = {}
       let dates = []
 
@@ -38,6 +41,7 @@ export default function Metrics () {
         setBestDaySubmissions(bestDayArr[1])
       }
 
+      // Streak Counter and Days
       let startDate
       let streakStartDate
       let streakObj = {}
@@ -67,6 +71,27 @@ export default function Metrics () {
         setStreak(streakLen + 1)
         setStreakEnd(new Date(streakEnd).toLocaleDateString())
       }
+
+      // Most commonly recorded well-being habit
+      let habitResult = {}
+
+      allHabits.forEach((habit) => {
+        let name = habit.habits.name
+        if (habitResult[name]) {
+          habitResult[name] += 1;
+      } else {
+        habitResult[name] = 1;
+        }
+      })
+
+      const sortedHabitCounter = Object.entries(habitResult).sort((prev, next) => prev[1] - next[1])
+      const sortedHabitLength = sortedHabitCounter.length - 1
+      const bestHabitArr = sortedHabitCounter[sortedHabitLength]
+
+      if (bestHabitArr && bestHabitArr.length > 0){
+        setHabitType(bestHabitArr[0])
+        setHabitActivities(bestHabitArr[1])
+      }
     }
   }, [allHabits])
 
@@ -84,7 +109,7 @@ export default function Metrics () {
             className="hidden md:flex"
             >
           </Image>
-          <h2 className="flex w-[100%] md:my-5 mx-3 justify-center text-md md:text-xl">Take a <span className="flex text-cyan-600 underline mx-1"> moment </span> to celebrate your <span className="flex text-cyan-600 underline mx-1"> progress </span></h2>
+          <h2 className="flex w-[100%] md:my-5 justify-center text-md md:text-xl">Take a <span className="flex text-cyan-600 underline mx-1"> moment </span> to celebrate your <span className="flex text-cyan-600 underline mx-1"> progress </span></h2>
           <Image
             src={"/Images/trophy-solid.svg"}
             height={50}
@@ -96,7 +121,8 @@ export default function Metrics () {
         </div>
           <p className="text-center md:justify-center w-[100%] text-md">Your best day for taking time for yourself was <span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  where you logged <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? "activities" : "activity"} </span> </p>
           <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
-          <p className="items-center text-center md:justify-center mx-auto md:my-5 w-[100%] font-bold">Can you build on these today?</p>
+          <p className="text-center md:justify-center w-[100%]">Your most frequently recorded well-being habit is <span className="font-bold text-cyan-600 mx-1"> {habitType} </span> which you have recorded  <span className="font-bold text-cyan-600 mx-1"> {habitActivities ? habitActivities : ''} </span>  {habitActivities > 1 ? "activities" : "activity"} </p>
+          <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <a href="/" className="font-bold text-cyan-600 mx-1">goal</a> for this week</p>
       </div>
       : 
       <p> Log an habit to start seeing your metrics! </p> }
