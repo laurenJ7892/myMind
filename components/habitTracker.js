@@ -1,7 +1,11 @@
 import { Inter } from '@next/font/google'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { DateCalendar, DayCalendarSkeleton } from '@mui/x-date-pickers/DateCalendar'
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
+import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton'
+import { PickersDay } from '@mui/x-date-pickers';
+import Badge from '@mui/material/Badge';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 import { useUser } from "../lib/context"
@@ -13,22 +17,21 @@ import { supabase }  from '../lib/supabaseClient'
 dayjs.extend(utc)
 
 export default function HabitTracker(data) {
-  const { user, habits, setHabits, allHabits } = useUser()
+  const requestAbortController = useRef(null);
+  const { user, habits, setHabits, setAllHabits } = useUser()
   const [date, setDate] = useState(dayjs(new Date()))
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
   const [deleteHabit, setDeleteHabit] = useState(false)
   const [editHabit, setEditHabit] = useState({})
+  const [highlightedDays, setHighlightedDays] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   
   const handleDate = async (e) => {
     setDate(dayjs(e.$d))
     const queryMinDate = new Date(e.$y, e.$M, e.$D)
     const queryMaxDate = new Date(e.$y, e.$M, e.$D+1)
     if (user) {
-      // const data = allHabits.filter(({ created_at }) => 
-      //   new Date(created_at) >= queryMinDate && new Date(created_at) <= queryMaxDate
-      // )
-
       const { data, error } = await supabase
         .from('user_habits')
         .select(`
@@ -54,12 +57,12 @@ export default function HabitTracker(data) {
     }
   }
 
+
   const handleClick = async () => {   
     setVisible(!visible)
   }
 
   const handleEdit= async (row) => {   
-    console.log(row)
     setEditHabit(row)
     setEditVisible(!editVisible)
   }
@@ -67,11 +70,79 @@ export default function HabitTracker(data) {
   const handleDelete = async (row) => {
     setEditHabit(row)
     setDeleteHabit(true)
+  }
 
+  const handleMonthChange = async (e) => {
+      if (requestAbortController.current) {
+        // make sure that you are aborting useless requests if you change months quickly
+        requestAbortController.current.abort();
+      }
+      setDate(e)
+      setIsLoading(true);
+      setHighlightedDays([]);
+      await getHightlightedDays(e.$d)     
+  };
+
+
+  const getHightlightedDays = async (newDate) => {
+    const ac = new AbortController();
+    const fetchDate = newDate ? newDate : date
+    const monthStartDate = dayjs(fetchDate).startOf('month')
+    const monthEndDate = dayjs(fetchDate).endOf('month')
+
+      const { data } = await supabase
+        .from('user_habits')
+        .select(`
+          id,
+          user_id,
+          description,
+          habits (
+            id,
+            name,
+            description
+          ),
+          created_at
+          `)
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .abortSignal(ac.signal)
+
+      if (data) {
+        setAllHabits(data)
+
+        const dateData = data.filter(({ created_at }) =>
+            new Date(created_at) >= monthStartDate && new Date(created_at) <= monthEndDate
+          ).map(({created_at}) => new Date(created_at).getDate())
+
+        setHighlightedDays(dateData)
+        setIsLoading(false)
+      }
+      requestAbortController.current = ac
+  }
+
+  function ServerDay(props) {
+    const isSelected = !props.outsideCurrentMonth && props.highlightedDays.indexOf(props.day.date()) >= 0;
+    return (
+      <Badge
+        key={props.day.toString()}
+        overlap="circular"
+        badgeContent={isSelected ? <StarOutlineIcon color="secondary"/> : undefined}
+      >
+        <PickersDay
+          outsideCurrentMonth={props.outsideCurrentMonth} 
+          day={props.day}
+          onDaySelect={handleDate}
+          today={props.today}
+          disabled={props.disabled}
+          />
+    </Badge>
+    )
   }
 
   useEffect(() => {
     handleDate(dayjs())
+    getHightlightedDays()
+    return () => requestAbortController.current?.abort();
   }, [])
   
   return (
@@ -79,9 +150,9 @@ export default function HabitTracker(data) {
       { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={new Date(date.$d).toISOString().substr(0, 10)} /> : ''}
       { deleteHabit ? <Modal heading={"Delete Habit"} text={"Are you sure you want to delete this entry?"} deleteHabit={editHabit} data={data} /> : ''}
       { editVisible ? <EditModal data={data} habit={editHabit} /> : ''}
-    <div className="mt-5 flex grid grid-rows grid-rows-2 md:grid-rows-2 mx-auto w-[95%] h-[60vh] py-10">
+    <div className="mt-5 flex grid grid-rows md:grid-rows-2 mx-auto w-[95%] md:h-[60vh] md:py-10">
       <div className="flex grow bg-gray-100 h-[90vh]">
-        <div className="flex mx-auto grid grid-rows md:grid-cols md:grid-cols-2 mt-5 w-[95%]">
+        <div className="flex mx-auto grid grid-rows auto-rows-min md:grid-cols md:grid-cols-2 mt-5 w-[95%]">
           {habits && !!Object.keys(habits).length > 0 ?
             <div className="flex mx-auto justify-center">
               <div>
@@ -93,7 +164,7 @@ export default function HabitTracker(data) {
                     alt="Logged habit bullseye"
                     className="inline-flex mr-3 max-w-[20%]"
                   />
-                   <h2 className="flex ml-0">Congratulations on prioritsing yourself!</h2>
+                   <h2 className="flex ml-0">Way to go! You logged: </h2>
                   </div>
               <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 border-cyan-800 border-collapse border-spacing-0.5">
                 <thead>
@@ -138,29 +209,48 @@ export default function HabitTracker(data) {
                   ))}
                 </tbody>
               </table>
-              <button 
-              className="flex w-[60%] mx-auto items-center justify-center bg-blue-800 mt-4 p-4 rounded-[20px] text-lg text-white font-medium"
-              onClick={handleClick}>
-                Log Habit
-            </button>
-            </div>
+                { date && date > dayjs().subtract(7, 'days') ? 
+                <button 
+                  className="flex w-[60%] mx-auto items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
+                  onClick={handleClick}>
+                  Log Habit
+                </button> : '' }
+              </div>
             </div> : (
-            <div className="flex grid grid-rows h-80 item-center">
-              <p className="flex mx-auto items-center justify-center">Oh no! Please log your habits for today</p>
-              <button 
-              className="flex w-[60%] mx-auto items-center justify-center h-20 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
-              onClick={handleClick}>
-                Log Habit
-            </button>
-          </div>)
-          }
-          <div className="flex justify-center h-auto mx-auto w-[95%] mt-5">
+              <div className="flex grid grid-rows auto-rows-min h-40 md:h-80 item-center">
+                { date && date > dayjs().subtract(7, 'days') ?
+                <>
+                <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">What is one thing you can do today for yourself?</p>
+                <button 
+                  className="flex w-[60%] mx-auto items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
+                  onClick={handleClick}>
+                  Log Habit
+              </button>
+              </>
+               : <>
+               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Oh no! We don't let you add any habits older than a week ago. </p>
+             </> }
+              </div>
+          )}
+          <div className="flex justify-center h-auto mx-auto w-[95%] md:mt-5">
           { date ? 
               <DateCalendar 
+                defaultValue={date}
                 value={date}
                 views={['day']}
+                loading={isLoading}
                 renderLoading={() => <DayCalendarSkeleton />}
-                onChange={handleDate}
+                onMonthChange={handleMonthChange}
+                slots={{
+                  day: ServerDay,
+                }}
+                disableFuture={true}
+                disableHighlightToday={false}
+                slotProps={{
+                  day: {
+                    highlightedDays: highlightedDays
+                  }
+                }}
               />
             : '' }
           </div>

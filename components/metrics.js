@@ -62,7 +62,6 @@ export default function Metrics () {
         const streakLen = parseInt(streakObj[streak])
         const streakSec = streakLen * 86400000
         const streakEnd = streakInt+streakSec
-        console.log(streakEnd)
 
         setStreakStart(new Date(streakInt).toLocaleDateString())
         setStreak(streakLen + 1)
@@ -75,14 +74,29 @@ export default function Metrics () {
   return (
     <>
     {allHabits && allHabits.length > 0 && bestDay ? 
-      <div className={"w-[90%] mx-auto mt-5"}>
-        <h2 className="flex items-center justify-left mx-auto md:my-5 text-xl font-bold">Metrics</h2>
-        <p>Best day for recording self care was: {bestDay ? bestDay.split("-").reverse().join("-") : ''}</p>
-        <p>Number of habits logged on the best day was: {bestDaySubmissions}</p>
-        <p>Number of days with habits logged in a row: {streak}</p>
-        <p>Streak days were between {streakStart ? streakStart : ''} and {streakEnd ? streakEnd : ''}</p>
-        <br />
-        <p className="flex items-center justify-center mx-auto md:my-5 w-[90%] font-bold">Can you beat these metrics this month?</p>
+      <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5"}>
+        <div className={"flex my-2 mx-auto w-[90%] justify-center"}>
+          <Image
+            src={"/Images/trophy-solid.svg"}
+            height={50}
+            width={50}
+            alt={"Celebratory tropy"}
+            className="hidden md:flex"
+            >
+          </Image>
+          <h2 className="flex w-[100%] md:my-5 mx-3 justify-center text-md md:text-xl">Take a <span className="flex text-cyan-600 underline mx-1"> moment </span> to celebrate your <span className="flex text-cyan-600 underline mx-1"> progress </span></h2>
+          <Image
+            src={"/Images/trophy-solid.svg"}
+            height={50}
+            width={50}
+            alt={"Celebratory tropy"}
+            className="hidden md:flex"
+            >
+          </Image>
+        </div>
+          <p className="text-center md:justify-center w-[100%] text-md">Your best day for taking time for yourself was <span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  where you logged <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? "activities" : "activity"} </span> </p>
+          <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
+          <p className="items-center text-center md:justify-center mx-auto md:my-5 w-[100%] font-bold">Can you build on these today?</p>
       </div>
       : 
       <p> Log an habit to start seeing your metrics! </p> }
