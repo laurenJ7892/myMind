@@ -19,7 +19,7 @@ dayjs.extend(utc)
 export default function HabitTracker(data) {
   const requestAbortController = useRef(null);
   const { user, habits, setHabits, setAllHabits } = useUser()
-  const [date, setDate] = useState(dayjs(new Date()))
+  const [date, setDate] = useState(dayjs())
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
   const [deleteHabit, setDeleteHabit] = useState(false)
@@ -28,7 +28,9 @@ export default function HabitTracker(data) {
   const [isLoading, setIsLoading] = useState(false)
   
   const handleDate = async (e) => {
-    setDate(dayjs(e.$d))
+    console.log(date.$d)
+    setDate(e)
+    console.log(date.$d)
     const queryMinDate = new Date(e.$y, e.$M, e.$D)
     const queryMaxDate = new Date(e.$y, e.$M, e.$D+1)
     if (user) {
@@ -149,7 +151,7 @@ export default function HabitTracker(data) {
   
   return (
     <>
-      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={new Date(date.$d).toISOString().substr(0, 10)} /> : ''}
+      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={date.$d} /> : ''}
       { deleteHabit ? <Modal heading={"Delete Habit"} text={"Are you sure you want to delete this entry?"} deleteHabit={editHabit} data={data} /> : ''}
       { editVisible ? <EditModal data={data} habit={editHabit} /> : ''}
     <div className="mt-5 flex grid grid-rows md:grid-rows-2 mx-auto w-[95%] md:h-[60vh] md:py-10">

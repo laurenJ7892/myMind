@@ -4,6 +4,7 @@ import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 
 const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
+  const visibleDate = new Date(date).setHours(11, 0, 0)
   const [showModal, setShowModal] = useState(true)
   const { user, setSuccessModal, session } = useUser()
   const [habit, setHabit] = useState(2)
@@ -63,7 +64,11 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
               { date ? (
               <div className="relative flex-auto ml-5 p-2">
                 <label>Date</label>
-                <input type="date" disabled value={date} className={"p-3"}/>
+                <input 
+                  type="date" 
+                  disabled 
+                  value={new Date(visibleDate).toISOString().substring(0, 10)} 
+                  className={"p-3"}/>
               </div>
             ) : '' }
              { deleteHabit ? (
