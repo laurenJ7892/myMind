@@ -28,9 +28,7 @@ export default function HabitTracker(data) {
   const [isLoading, setIsLoading] = useState(false)
   
   const handleDate = async (e) => {
-    console.log(date.$d)
     setDate(e)
-    console.log(date.$d)
     const queryMinDate = new Date(e.$y, e.$M, e.$D)
     const queryMaxDate = new Date(e.$y, e.$M, e.$D+1)
     if (user) {

@@ -126,7 +126,7 @@ export default function Metrics () {
           <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <Link href="/" className="font-bold text-cyan-600 mx-1">goal</Link> for this week</p>
       </div>
       : 
-      <p> Log an habit to start seeing your metrics! </p> }
+      <p className="text-center md:items-center md:justify-center mx-auto w-[90%] text-2xl mt-10"> Log a habit to start seeing your metrics! </p> }
     </>
   )
 }

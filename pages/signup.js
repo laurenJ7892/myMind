@@ -7,6 +7,8 @@ import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import Modal from "../components/modal"
+import Lottie from 'lottie-react'
+import welcome from "../public/Animations/welcome.json"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +35,7 @@ export default function SignUp() {
     }
 
     if (password != passwordConfirm) {
-      setError("Please review your email. They do not match! ")
+      setError("Please review your passwords. They do not match! ")
       return;
     }
 
@@ -103,7 +105,6 @@ export default function SignUp() {
   return (
     <>
       <Header />
-      {submitted ? (<Modal heading={"Signup Success"} text={"Your account has successfully been created"}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">Sign up</h2>
@@ -184,6 +185,12 @@ export default function SignUp() {
                 onClick={togglePassword}
                 alt="show password"/>
            </div>
+           {submitted ? (
+              <>
+                <Modal heading={"Signup Success"} text={"Your account has successfully been created"} />
+                <Lottie animationData={welcome} loop={true} />
+            </>
+            ) : ''}
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input 
               type={passwordInput}
