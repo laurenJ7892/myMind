@@ -74,6 +74,7 @@ export default function ResetPassword() {
 
   const disabled = (password != "") && (passwordConfirm != "")
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user || Object.keys(user).length == 0) {
       Router.push('/')
@@ -83,7 +84,6 @@ export default function ResetPassword() {
   return (
     <>
       <Header />
-      {/* TO DO: CHECK ROUTE HERE MAYBE TO DASHBOARD */}
       {submitted ? (<Modal heading={heading} text={text}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">

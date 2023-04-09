@@ -130,6 +130,7 @@ export default function Profile() {
     }
   }
 
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user || Object.keys(user).length == 0) {
       Router.push('/')

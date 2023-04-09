@@ -13,9 +13,8 @@ const RequestReset = () => {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState(null)
   
-
-  const redirectUrl = process.env.NEXT_PUBLIC_URL + "/reset-password"
-  
+  const websiteUrl = process.env.VERCEL_URL || "http://localhost:3000";
+  const redirectUrl = websiteUrl + "/reset-password"
   const heading = "Password Reset Email Sent"
   const text =  "If you have an account, we will send an email to reset your password. Please also check your junk mail!"
  

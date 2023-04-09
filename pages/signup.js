@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
+import Link from 'next/link'
 import { useState } from 'react'
 import Router from 'next/router'
 import Header from "../components/header"
@@ -211,9 +212,9 @@ export default function SignUp() {
               required
               value={accept}
               type="checkbox"/>
-              <a href="/terms">
+              <Link href="/terms">
                 <label className="ml-5 text-cyan-800 text-lg">Accept our <span className="underline">terms and conditions</span></label>
-              </a>
+              </Link>
            </div>
            {error ? <p>{error}</p> : ''}
            <button

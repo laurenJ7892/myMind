@@ -47,6 +47,7 @@ export default function Dashboard({ data }) {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user || Object.keys(user).length == 0) {
       router.push('/')

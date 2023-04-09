@@ -140,6 +140,7 @@ export default function HabitTracker(data) {
     )
   }
 
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     handleDate(dayjs())
     getHightlightedDays()
@@ -229,7 +230,7 @@ export default function HabitTracker(data) {
               </button>
               </>
                : <>
-               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Oh no! We don't let you add any habits older than a week ago. </p>
+               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Oh no! We do not let you add any habits older than a week ago. </p>
              </> }
               </div>
           )}

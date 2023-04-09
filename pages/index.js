@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useEffect } from 'react'
 import Header from "../components/header"
@@ -12,9 +13,8 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const { setUser, setSession } = useUser()
   
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    //const json = localStorage.getItem("sb-suleascckvruxdkgklay-auth-token")
-    // const data = JSON.parse(json)
     const getData = async () => {
       const { data: { user }} = await supabase.auth.getUser()
       const { data: { session }, error } = await supabase.auth.getSession()
@@ -43,7 +43,7 @@ export default function Home() {
             <h2 className="flex items-center justify-center text-center font-bold">Take control of your anxiety or depression!</h2>
             <h4 className="flex items-center justify-center text-center">Start creating healthier self-care habits with the MyMind tracker</h4>
             <button className="bg-blue-800 text-white rounded-[20px] w-[50%] md:h-[50%] mx-auto">
-              <a href="/signup" className="flex items-center justify-center text-center font-bold">Sign up here</a>
+              <Link href="/signup" className="flex items-center justify-center text-center font-bold">Sign up here</Link>
             </button>
           </div>
           <Image

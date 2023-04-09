@@ -15,6 +15,7 @@ export default function Metrics () {
   const [habitType, setHabitType] = useState(null)
   const [habitActivities, setHabitActivities] = useState(null)
 
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!user || Object.keys(user).length == 0 || !allHabits) {
       
@@ -114,7 +115,7 @@ export default function Metrics () {
             src={"/Images/trophy-solid.svg"}
             height={50}
             width={50}
-            alt={"Celebratory tropy"}
+            alt={"Celebratory trophy"}
             className="hidden md:flex"
             >
           </Image>
@@ -122,7 +123,7 @@ export default function Metrics () {
           <p className="text-center md:justify-center w-[100%] text-md">Your best day for taking time for yourself was <span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  where you logged <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? "activities" : "activity"} </span> </p>
           <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
           <p className="text-center md:justify-center w-[100%]">Your most frequently recorded well-being habit is <span className="font-bold text-cyan-600 mx-1"> {habitType} </span> which you have recorded  <span className="font-bold text-cyan-600 mx-1"> {habitActivities ? habitActivities : ''} </span>  {habitActivities > 1 ? "activities" : "activity"} </p>
-          <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <a href="/" className="font-bold text-cyan-600 mx-1">goal</a> for this week</p>
+          <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <Link href="/" className="font-bold text-cyan-600 mx-1">goal</Link> for this week</p>
       </div>
       : 
       <p> Log an habit to start seeing your metrics! </p> }
