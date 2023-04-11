@@ -1,6 +1,6 @@
 import { Inter } from '@next/font/google'
 import Header from "../components/header"
-
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,6 +38,11 @@ export default function Terms() {
         <p className="flex items-center w-[80%] mx-auto mb-5 bg-blue-100">
           Thank you for using MyMind. We hope that our website can provide you with helpful insights and support as you navigate your mental health journey.
          </p>
+         <Link href="/signup">
+          <label className="ml-5 text-cyan-800 text-2xl">
+            Back to <span className="underline">sign up page</span>
+          </label>
+          </Link>
         </div>
       </main>
     </>
