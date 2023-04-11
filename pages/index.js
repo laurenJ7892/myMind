@@ -47,7 +47,7 @@ export default function Home() {
             </button>
           </div>
           <Image
-            src="/Images/home.png"
+            src="/Images/home2.jpg"
             alt="My Mind helping manage anxiety"
             width={500}
             height={500}
