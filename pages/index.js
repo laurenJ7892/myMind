@@ -40,7 +40,7 @@ export default function Home() {
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
         <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[60vh] md:h-[50vh] w-[90%] mx-auto text-2xl bg-blue-100">
           <div className="flex grid grid-rows">
-            <h2 className="flex items-center justify-center text-center font-bold">Take control of your anxiety or depression!</h2>
+            <h2 className="flex items-center justify-center text-center font-bold">We are here to help with your anxiety.</h2>
             <h4 className="flex items-center justify-center text-center">Start creating healthier self-care habits with the MyMind tracker</h4>
             <button className="bg-blue-800 text-white rounded-[20px] w-[50%] md:h-[50%] mx-auto">
               <Link href="/signup" className="flex items-center justify-center text-center font-bold">Sign up here</Link>
