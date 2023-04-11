@@ -68,7 +68,7 @@ export default function Dashboard({ data }) {
         : '' }
       <main className="flex grid grid-cols grid-cols-1 w-[100vw] h-[90vh]">
         <div className="flex h-[5vh] md:h-[5vh] w-[100%] mx-auto">
-          <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">Welcome back {user?.user_metadata?.first_name}</h2>
+          <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">Welcome {user?.user_metadata?.first_name}</h2>
         </div>
         <div className="flex grid grid-rows h-[30vh] md:h-[35vh] w-[100%] mx-auto">
          <Metrics />
