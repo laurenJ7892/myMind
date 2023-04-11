@@ -183,7 +183,7 @@ export default function Profile() {
                   />
               </div>
               <div className="mx-auto w-[90%]">
-              <label className="mx-2">Email </label>
+              <label className="mx-2">Email      </label>
                 <input
                   type="email"
                   className="p-4 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
