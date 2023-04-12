@@ -182,7 +182,7 @@ export default function Profile() {
                   value={lastName}
                   />
               </div>
-              <div className="mx-auto w-40">
+              <div className="mx-4 w-40">
               <label className="mx-2">Email</label>
                 <input
                   type="email"
