@@ -150,7 +150,7 @@ export default function Profile() {
           <div className={accountTab ? 'visible' : 'hidden'}>
             <h2 className="flex items-center my-5 mx-auto justify-center text-2xl font-bold w-[100%] ">Your account information</h2>
             <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%] text-xl font-medium"> 
-              <div className="mx-auto w-40">
+              <div className="mx-auto w-100">
                   <label className="mx-2">First name</label>
                   <input 
                     type="text"
@@ -166,7 +166,7 @@ export default function Profile() {
                     value={firstName}
                   />
                 </div>
-                <div className="mx-auto w-40">
+                <div className="mx-auto w-100">
                 <label className="mx-2">Last name</label>
                 <input
                   type="text"
@@ -182,8 +182,8 @@ export default function Profile() {
                   value={lastName}
                   />
               </div>
-              <div className="mx-auto w-40">
-              <label className="mx-2">Email     </label>
+              <div className="mx-auto w-100">
+              <label className="mx-2">Email</label>
                 <input
                   type="email"
                   className="p-4 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
