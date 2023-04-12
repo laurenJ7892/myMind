@@ -1,7 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\components",
+    "\\lib",
+    "\\lib\\data",
+    "\\pages",
+    "\\pages\\api",
+    "\\public",
+    "\\public\\Animations",
+    "\\public\\Images",
+    "\\styles"
   ],
-  "SelectedNode": "\\C:\\Users\\Addison\\Source\\Repos\\myMind",
+  "SelectedNode": "\\pages\\profile.js",
   "PreviewInSolutionExplorer": false
 }
