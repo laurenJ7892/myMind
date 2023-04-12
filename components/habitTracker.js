@@ -6,6 +6,7 @@ import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton'
 import { PickersDay } from '@mui/x-date-pickers';
 import Badge from '@mui/material/Badge';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 import { useUser } from "../lib/context"
@@ -18,13 +19,14 @@ dayjs.extend(utc)
 
 export default function HabitTracker(data) {
   const requestAbortController = useRef(null);
-  const { user, habits, setHabits, setAllHabits } = useUser()
+  const { user, habits, setHabits, setAllHabits, goal, setGoal } = useUser()
   const [date, setDate] = useState(dayjs())
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
   const [deleteHabit, setDeleteHabit] = useState(false)
   const [editHabit, setEditHabit] = useState({})
   const [highlightedDays, setHighlightedDays] = useState([])
+  const [goalDays, setGoalDays] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   
   const handleDate = async (e) => {
@@ -80,8 +82,42 @@ export default function HabitTracker(data) {
       setDate(e)
       setIsLoading(true);
       setHighlightedDays([]);
-      await getHightlightedDays(e.$d)     
+      await getHightlightedDays(e.$d)
+      await getGoalDays(e.$d)     
   };
+
+  const getGoalDays = async (newDate) => {
+    const ac = new AbortController();
+    const fetchDate = newDate ? newDate : date
+    const monthStartDate = dayjs(fetchDate).startOf('month')
+    const monthEndDate = dayjs(fetchDate).endOf('month')
+
+      const { data } = await supabase
+        .from('user_goals')
+        .select(`
+          id,
+          user_id,
+          habits (
+            id,
+            name,
+            description
+          ),
+          completion_date,
+          num_times
+          `)
+        .eq('user_id', user.id)
+        .gte('completion_date', monthStartDate)
+        .lte('completion_date', monthEndDate)
+        .abortSignal(ac.signal)
+
+      if (data) {
+        setGoal(data)
+        const goalData = data.map(({ completion_date }) => new Date(completion_date).getDate())
+        setGoalDays(goalData)
+        setIsLoading(false)
+      }
+      requestAbortController.current = ac
+  }
 
 
   const getHightlightedDays = async (newDate) => {
@@ -115,7 +151,6 @@ export default function HabitTracker(data) {
           ).map(({created_at}) => new Date(created_at).getDate())
 
         setHighlightedDays(dateData)
-        setIsLoading(false)
       }
       requestAbortController.current = ac
   }
@@ -123,11 +158,13 @@ export default function HabitTracker(data) {
   // MUI Component instructions to get it to load and overlay data
   function ServerDay(props) {
     const isSelected = !props.outsideCurrentMonth && props.highlightedDays.indexOf(props.day.date()) >= 0;
+    const isGoal = !props.outsideCurrentMonth && props.goalDays.indexOf(props.day.date()) >= 0;
+
     return (
       <Badge
         key={props.day.toString()}
         overlap="circular"
-        badgeContent={isSelected ? <StarOutlineIcon color="secondary"/> : undefined}
+        badgeContent={isSelected ? <StarOutlineIcon color="secondary"/> : isGoal ? <CrisisAlertIcon color="primary"/> : undefined }
       >
         <PickersDay
           outsideCurrentMonth={props.outsideCurrentMonth} 
@@ -144,6 +181,7 @@ export default function HabitTracker(data) {
   useEffect(() => {
     handleDate(dayjs())
     getHightlightedDays()
+    getGoalDays()
     return () => requestAbortController.current?.abort();
   }, [])
   
@@ -230,7 +268,7 @@ export default function HabitTracker(data) {
               </button>
               </>
                : <>
-               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Oh no! We do not let you add any habits older than a week ago. </p>
+               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Try to focus on what you can achieve this week.</p>
              </> }
               </div>
           )}
@@ -250,8 +288,9 @@ export default function HabitTracker(data) {
                 disableHighlightToday={false}
                 slotProps={{
                   day: {
-                    highlightedDays: highlightedDays
-                  }
+                    highlightedDays: highlightedDays,
+                    goalDays: goalDays
+                  },
                 }}
               />
             : '' }

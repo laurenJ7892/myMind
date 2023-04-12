@@ -40,7 +40,7 @@ export default function SignUp() {
     }
 
     if (!(/(?=.*\d)/.test(password))){
-      setError("Please make sure your password has at least one number character")
+      setError("Please make sure your password has at least one number")
       return;
     }
 
@@ -80,7 +80,6 @@ export default function SignUp() {
       setEmail('')
       setPassword('')
      
-      
       Router.push('/dashboard')
     } else {
       if (error.name == "AuthApiError"){
