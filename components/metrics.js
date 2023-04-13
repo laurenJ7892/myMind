@@ -57,8 +57,8 @@ export default function Metrics () {
       const sortedLength = sorted.length - 1
       const bestDayArr = sorted[sortedLength]
       if (bestDayArr && bestDayArr.length > 0){
-        const updatedDate = new Date(bestDayArr[0]).setHours(11, 0, 0)
-        setBestDay(new Date(updatedDate).toLocaleDateString())
+        const updatedDate = new Date(bestDayArr[0])
+        setBestDay(new Date(updatedDate).toLocaleDateString('en-AU'))
         setBestDaySubmissions(bestDayArr[1])
       }
 
@@ -88,9 +88,9 @@ export default function Metrics () {
         const streakSec = streakLen * 86400000
         const streakEnd = streakInt+streakSec
 
-        setStreakStart(new Date(streakInt).toLocaleDateString())
+        setStreakStart(new Date(streakInt).toLocaleDateString('en-AU'))
         setStreak(streakLen + 1)
-        setStreakEnd(new Date(streakEnd).toLocaleDateString())
+        setStreakEnd(new Date(streakEnd).toLocaleDateString('en-AU'))
       }
 
       // Most commonly recorded well-being habit

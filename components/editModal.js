@@ -18,6 +18,10 @@ const EditModal = ({ data, habit }) => {
     Router.push("/")
   }
 
+  const handleDate = (e) => {
+    setDate(new Date(e.currentTarget.value))
+  }
+
   const handleSubmit = async () => {
     const utcDate = date ? new Date(date).toUTCString() : habit.created_at
     const habit_id = habitId ? habitId : habit && habit.habits && habit.habits.id ? habit.habits.id : 2
@@ -59,9 +63,9 @@ const EditModal = ({ data, habit }) => {
                 <label>Date</label>
                 <input 
                   type="date" 
-                  value={habit.created_at ? new Date(habit.created_at).toISOString().substring(0, 10) : new Date()} 
+                  value={date ? (new Date(date)).toISOString().substring(0, 10) : habit.created_at ? new Date(habit.created_at).toISOString().substring(0, 10) : new Date() } 
                   className={"p-3"} 
-                  onChange={(e) => setDate(e.currentTarget.value)}/>
+                  onChange={(e) => handleDate(e)}/>
               </div>
               <div className="relative flex p-2 ml-5">
                 {habits ? 
