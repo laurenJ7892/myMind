@@ -31,8 +31,8 @@ export default function HabitTracker(data) {
   
   const handleDate = async (e) => {
     setDate(e)
-    const queryMinDate = new Date(e.$y, e.$M, e.$D)
-    const queryMaxDate = new Date(e.$y, e.$M, e.$D+1)
+    const queryMinDate =  new Date(new Date(e.$y, e.$M, e.$D).setUTCHours(0, 0, 0, 0)).toUTCString()
+    const queryMaxDate = new Date(new Date(e.$y, e.$M, e.$D+1).setUTCHours(0, 0, 0, 0)).toUTCString()
     if (user) {
       const { data, error } = await supabase
         .from('user_habits')
@@ -48,8 +48,10 @@ export default function HabitTracker(data) {
           created_at
           `)
         .eq('user_id', user.id)
-        .gte(`created_at`, queryMinDate.toUTCString())
-        .lte(`created_at`, queryMaxDate.toUTCString())
+        .gt(`created_at`, queryMinDate)
+        .lte(`created_at`, queryMaxDate)
+      
+      console.log(data)
       
       if (data) {
         setHabits(data)
@@ -249,7 +251,7 @@ export default function HabitTracker(data) {
                   ))}
                 </tbody>
               </table>
-                { date && date > dayjs().subtract(7, 'days') ? 
+                { date && date > dayjs().subtract(1, 'month') ? 
                 <button 
                   className="flex w-[60%] mx-auto items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
                   onClick={handleClick}>
@@ -258,7 +260,7 @@ export default function HabitTracker(data) {
               </div>
             </div> : (
               <div className="flex grid grid-rows auto-rows-min h-40 md:h-80 item-center">
-                { date && date > dayjs().subtract(7, 'days') ?
+                { date && date > dayjs().subtract(1, 'month') ?
                 <>
                 <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">What is one thing you can do today for yourself?</p>
                 <button 

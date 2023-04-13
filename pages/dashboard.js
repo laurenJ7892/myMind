@@ -64,7 +64,7 @@ export default function Dashboard({ data }) {
         num_times
         `)
       .eq('user_id', user.id)
-      .gte(`completion_date`, dayjs().utc())
+      .gte(`completion_date`, new Date().toUTCString())
     
     if (data) {
       setGoal(data)
