@@ -114,6 +114,7 @@ export default function SignUp() {
               type="text"
               required
               placeholder="First name"
+              maxLength="20"
               id="name"
               name="name"
               className="py-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 md:w-[50%] my-5 md:mt-0"
@@ -130,6 +131,7 @@ export default function SignUp() {
               id="lastName"
               name="lastName"
               placeholder="Last name"
+              maxLength="20"
               onChange={(e) => {
                 setLastName(e.target.value)
               }}
