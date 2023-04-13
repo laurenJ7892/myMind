@@ -107,6 +107,7 @@ export default function SignUp() {
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">Sign up</h2>
+         <div className="flex w-[90%] mt-5 mx-auto text-2xl text-red-600">*all fields are compulsory</div>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex justify-between mx-auto w-[95%] md:w-full grid grid-cols grid-cols-1 md:flex">
             <input 
