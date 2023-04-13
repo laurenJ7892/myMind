@@ -61,7 +61,8 @@ export default function Dashboard({ data }) {
           description
         ),
         completion_date,
-        num_times
+        num_times,
+        created_at
         `)
       .eq('user_id', user.id)
       .gte(`completion_date`, new Date().toUTCString())
@@ -89,7 +90,7 @@ export default function Dashboard({ data }) {
         <div className="flex h-[5vh] md:h-[5vh] w-[100%] mx-auto">
           <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">Welcome {user?.user_metadata?.first_name}</h2>
         </div>
-        <div className="flex grid grid-rows h-[30vh] md:h-[35vh] w-[100%] mx-auto">
+        <div className="flex grid grid-rows h-[60vh] w-[100%] mx-auto">
          <Metrics />
         </div>
         {successModal ? 
@@ -98,7 +99,7 @@ export default function Dashboard({ data }) {
           <Modal heading="Congratulations" text="You took time and prioritised your well-being!"/>
         </>
         : '' }
-        <div div className="flex">
+        <div div className="flex h-auto">
           <HabitTracker props={data}  />
         </div>
       </main>
