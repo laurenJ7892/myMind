@@ -144,33 +144,30 @@ export default function Profile() {
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
         <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[70vh] w-[90%] mx-auto bg-blue-100">
           <div className="flex grid grid-rows mx-auto my-auto">
-           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-5" onClick={toggleActive}>Account information</button>
-           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-5" onClick={togglePassword}>Change password</button>
+           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-2 focus:bg-violet-700" onClick={toggleActive}>Account information</button>
+           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-2 focus:bg-violet-700 focus:text-white" onClick={togglePassword}>Change password</button>
           </div>
           <div className={accountTab ? 'visible' : 'hidden'}>
-            <h2 className="flex items-center my-5 mx-auto justify-center text-2xl font-bold w-[100%] ">Your account information</h2>
-            <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%] text-xl font-medium"> 
-              <div className="mx-auto w-[90%]">
-                  <label className="mx-2">First name</label>
-                  <input 
-                    type="text"
-                    required
-                    placeholder={user.user_metadata?.first_name}
-                    id="name"
-                    name="name"
-                    disabled={disabled}
-                    className="py-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
-                    onChange={(e) => {
-                      setFirstName(e.target.value)
-                    }}
-                    value={firstName}
-                  />
-                </div>
-                <div className="mx-auto w-[90%]">
-                <label className="mx-2">Last name</label>
+            <form className="flex grid grid-rows items-center mx-auto w-[90%] md:w-[80%] text-xl font-medium">
+              <h2 className="flex my-5 mx-2 justify-center text-2xl font-bold w-[100%] md:w-[80%]">Your account information</h2>
+                <label className="mx-2  w-[100%]">First name</label>
+                <input 
+                  type="text"
+                  required
+                  placeholder={user.user_metadata?.first_name}
+                  id="name"
+                  name="name"
+                  disabled={disabled}
+                  className="p-3 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0"
+                  onChange={(e) => {
+                    setFirstName(e.target.value)
+                  }}
+                  value={firstName}
+                />
+                <label className="mx-2 w-[100%]">Last name</label>
                 <input
                   type="text"
-                  className="p-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
+                  className="p-3 text-cyan-800 border-gray-400 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0 focus:border-cyan-800"
                   required
                   id="lastName"
                   name="lastName"
@@ -181,12 +178,10 @@ export default function Profile() {
                   }}
                   value={lastName}
                   />
-              </div>
-              <div className="mx-auto w-[90%]">
-              <label className="mx-2">Email</label>
+              <label className="mx-2 w-[100%]">Email</label>
                 <input
                   type="email"
-                  className="p-4 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[100%] md:w-[80%] my-5 md:mt-0"
+                  className="p-3 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0"
                   required
                   id="email"
                   name="email"
@@ -197,18 +192,17 @@ export default function Profile() {
                   }}
                   value={email}
                 />
-              </div>
               {error ? <p>{error}</p> : ''}
               {disabled ?  
                 <button
                     onClick={() => setDisabled(false)}
-                    className="flex justify-center mx-auto w-[100%] md:w-[30%] mt-5 md:mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
+                    className="flex justify-center w-[80%] mx-5 md:mx-20 md:w-[50%] mt-10 bg-cyan-800 text-white p-4 rounded-[20px] disabled:bg-gray-400">
                     Edit
                 </button> : 
                 <button
                   onClick={handleSubmit}
                   disabled={!!submitted}
-                  className="flex justify-center mx-auto w-[95%] md:w-[40%] mt-5 md:mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
+                  className="flex justify-center w-[80%] mx-5 md:mx-20 md:w-[50%] mt-10 bg-cyan-800 text-white p-4 rounded-[20px] disabled:bg-gray-400">
                   Update
                 </button>
               }
@@ -216,37 +210,37 @@ export default function Profile() {
           </div>
           <div className={passwordTab ? 'visible' : 'hidden'}>
           <h2 className="flex items-center mt-5 mx-auto justify-center text-2xl font-bold w-[100%]">Change Password</h2>
-          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
-           <div className="flex mx-auto w-[95%] md:w-full my-5">
-            <input
-              type={passwordInput}
-              className="py-5 mx-auto text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800  w-[90%] md:w-[80%]"
-              required
-              id="password"
-              name="password"
-              minLength="6"
-              placeholder="New Password"
-              onChange={(e) => {
-                setPassword(e.target.value)
-              }}
-              value={password}
-            />
-              <Image 
-                src={"/Images/eye-solid.svg"}
-                height={20}
-                width={20}
-                onClick={showPassword}
-                alt="show password"/>
-           </div>
-           <div className="flex mx-auto w-[95%] md:w-full my-5">
+          <form className="flex grid grid-rows items-center mx-auto w-[100%]"> 
+           <label className="mx-5 w-[100%] text-2xl my-5">Password</label>
+           <div className="flex">
+              <input
+                type={passwordInput}
+                className="py-5 ml-5 mr-1 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800  w-[85%] md:w-[80%]"
+                required
+                id="password"
+                name="password"
+                minLength="6"
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                }}
+                value={password}
+              />
+                <Image 
+                  src={"/Images/eye-solid.svg"}
+                  height={20}
+                  width={20}
+                  onClick={showPassword}
+                  alt="show password"/>
+              </div>
+            <label className="mx-5 w-[100%] my-5 text-2xl">Confirm Password</label>
+            <div className="flex">
             <input 
               type={passwordInput}
-              className="py-5 mx-auto text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[90%] md:w-[80%]"
+              className="py-5 ml-5 mr-1 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 w-[85%] md:w-[80%]"
               required
               minLength="6"
               id="passwordConfirm"
               name="passwordConfirm"
-              placeholder="Confirm new password"
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}
@@ -258,12 +252,12 @@ export default function Profile() {
                 width={20}
                 onClick={showPassword}
                 alt="show password"/>
-           </div>
+            </div>
            {error ? <p>{error}</p> : ''}
            <button
               disabled={password && password === passwordConfirm ? false : true}
               onClick={handlePasswordChange}
-              className="flex justify-center mx-auto w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
+              className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-3 disabled:bg-gray-400 rounded-[20px]">
               Change password
            </button>
          </form>
