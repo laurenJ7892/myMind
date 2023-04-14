@@ -45,11 +45,11 @@ const GoalModal = ({ data, mode, item, heading }) => {
 
 
   const handleDelete = async () => {
+    console.log("delete called")
     const { error } = await supabase
       .from('user_goals')
       .delete()
       .eq('id', item.id)
-    
     if (error) {
       console.log(error)
     }
@@ -122,7 +122,6 @@ const GoalModal = ({ data, mode, item, heading }) => {
               <div className="relative flex-auto ml-5 p-2">
                 <label>How many times do you want to aim to prioritise your self care by then?</label>
                 <select className={"ml-2 w-50%"} 
-                  defaultValue={0}
                   value={goalAmount}
                   onChange={(e) => setGoalAmount(e.currentTarget.value)}>
                   {habitGoalFrequency.map(row =>
