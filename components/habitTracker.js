@@ -19,7 +19,7 @@ dayjs.extend(utc)
 
 export default function HabitTracker(data) {
   const requestAbortController = useRef(null);
-  const { user, habits, setHabits, setAllHabits, goal, setGoal, allHabits, setAchievedGoals } = useUser()
+  const { user, habits, setHabits, setAllHabits, goal, setGoal, achievedGoals } = useUser()
   const [date, setDate] = useState(dayjs())
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
@@ -27,7 +27,7 @@ export default function HabitTracker(data) {
   const [editHabit, setEditHabit] = useState({})
   const [highlightedDays, setHighlightedDays] = useState([])
   const [goalDays, setGoalDays] = useState([])
-  const [completeGoals, setCompletedGoals] = useState([])
+  const [completedGoalDays, setCompletedGoalDays] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   
   const handleDate = async (e) => {
@@ -84,14 +84,13 @@ export default function HabitTracker(data) {
       setIsLoading(true);
       setHighlightedDays([]);
       await getHightlightedDays(e.$d)
-      await getGoalDays(e.$d)     
   };
 
-  const getGoalDays = async (newDate) => {
+  const getGoalDays = async (newDate, habitData) => {
     const ac = new AbortController();
     const fetchDate = newDate ? newDate : date
-    const monthStartDate = dayjs(fetchDate).startOf('month')
-    const monthEndDate = dayjs(fetchDate).endOf('month')
+    const monthStartDate = new Date(dayjs(fetchDate).startOf('month')).toUTCString()
+    const monthEndDate = new Date(dayjs(fetchDate).endOf('month')).toUTCString()
 
       const { data } = await supabase
         .from('user_goals')
@@ -153,31 +152,33 @@ export default function HabitTracker(data) {
           ).map(({created_at}) => new Date(created_at).getDate())
 
         setHighlightedDays(dateData)
+        getGoalDays(newDate, data)
       }
       requestAbortController.current = ac
   }
 
-  const checkGoalCompletion = async () => {
-    let completedGoals = []
+  const checkGoalCompletion = (data, habitData) => {
     let achievedGoalsCheck = []
     let toDoGoals = []
-    if (goal && goal.length > 0) {
-      for (let i = 0; i < goal.length; i++) {
-        const goalItem = goal[i]
+    let complGoalDays = []
+    if (data && data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        const goalItem = data[i]
         const startDate = goalItem.created_at
         const endDate = goalItem.completion_date
-        const habitGoalData = allHabits.filter(({ created_at }) => created_at >= startDate && created_at <= endDate).map(({created_at}) => new Date(created_at).getDate())
-        if (habitGoalData.length >= goal.num_times) {
-          completedGoals.push(endDate.getDate())
+        const habitGoalData = habitData.filter(({ created_at }) => created_at >= startDate && created_at <= endDate).map(({created_at}) => new Date(created_at).getDate())
+        if (habitGoalData.length >= goalItem.num_times) {
           achievedGoalsCheck.push(goalItem)
+          console.log(goalItem.completion_date.getDate())
+          complGoalDays.push(goalItem.completion_date.getDate())
         } else {
           toDoGoals.push(goalItem)
         }
       }
+      setAchievedGoals(achievedGoalsCheck)
+      setCompletedGoalDays(complGoalDays)
+      setGoal(toDoGoals)
     }
-    setCompletedGoals(completedGoals)
-    setAchievedGoals(achievedGoalsCheck)
-    setGoal(toDoGoals)
   }
 
   // MUI Component instructions to get it to load and overlay data
@@ -190,16 +191,21 @@ export default function HabitTracker(data) {
       <Badge
         key={props.day.toString()}
         overlap="circular"
-        badgeContent={isSelected ? <StarOutlineIcon color="secondary"/> : isCompletedGoal ? <CrisisAlertIcon color="success"/>  : isGoal ? <CrisisAlertIcon color="primary"/> : undefined }
+        badgeContent={isSelected ? <StarOutlineIcon color="secondary"/> : undefined }
       >
-        <PickersDay
-          outsideCurrentMonth={props.outsideCurrentMonth} 
-          day={props.day}
-          onDaySelect={handleDate}
-          today={props.today}
-          disabled={props.disabled}
-          />
-    </Badge>
+        <Badge
+        key={props.day.toString()}
+        overlap="circular"
+        badgeContent={isCompletedGoal ? <CrisisAlertIcon color="warning"/>  : isGoal ? <CrisisAlertIcon color="primary"/> : undefined} >
+          <PickersDay
+            outsideCurrentMonth={props.outsideCurrentMonth} 
+            day={props.day}
+            onDaySelect={handleDate}
+            today={props.today}
+            disabled={props.disabled}
+            />
+          </Badge>
+     </Badge>
     )
   }
 
@@ -317,7 +323,7 @@ export default function HabitTracker(data) {
                   day: {
                     highlightedDays: highlightedDays,
                     goalDays: goalDays,
-                    completedGoalDays: completeGoals,
+                    completedGoalDays: completedGoalDays,
                   },
                 }}
               />

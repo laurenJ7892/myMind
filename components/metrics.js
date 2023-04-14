@@ -148,7 +148,7 @@ export default function Metrics () {
           <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
           {achievedGoals && achievedGoals.length > 0 ?
             <>
-            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Congratulations! You have achieved {achievedGoals} {achievedGoals && achievedGoals.length > 1 ? "goals" : "goal"}</h2>
+            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Congratulations! You have achieved {achievedGoals.length} {achievedGoals && achievedGoals.length > 1 ? "goals" : "goal"}</h2>
             <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 mx-5 border-cyan-800 border-collapse border-spacing-0.5">
               <tbody>
                 {achievedGoals && achievedGoals.length > 0  ? achievedGoals.map((item) =>
@@ -198,7 +198,7 @@ export default function Metrics () {
             </table>
             </>
             :
-            <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">goal</button> for this week</p>
+            <p className="text-center md:justify-center w-[100%] text-md mt-5">Keep it up and set a {achievedGoals && achievedGoals.length > 0 ? "new" : ''} <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">goal</button> for this week</p>
           }
       </div>
       : 
