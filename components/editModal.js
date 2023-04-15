@@ -11,11 +11,14 @@ const EditModal = ({ data, habit }) => {
   const [date, setDate] = useState(null)
   const [habitId, setHabitId] = useState(null)
   const [notes, setNotes] = useState('')
-  const { user, setHabits, habits, setSuccessModal } = useUser()
+  const { user, setHabits, habits, setSuccessModal, session } = useUser()
 
   const handleClick = () => {
     setShowModal(false)
-    Router.push("/")
+    if (session && session.user) {
+    } else {
+      Router.push("/")
+    }
   }
 
   const handleDate = (e) => {

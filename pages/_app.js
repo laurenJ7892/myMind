@@ -1,15 +1,40 @@
 import "../styles/globals.css"
-import { UserContextProvider } from '../lib/context'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { useState, useEffect } from 'react'
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
+import { UserContextProvider } from '../lib/context'
+import {supabase} from "../lib/supabaseClient"
 
 export default function App({ Component, pageProps }) {
+  
+  const [session, setSession] = useState(null)
 
+    useEffect(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session)
+      })
+
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session)
+      })
+      
+      return () => subscription.unsubscribe()
+    }, [])
+
+  
   return (
-    <UserContextProvider>
-       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Component {...pageProps} />
-      </LocalizationProvider>
-    </UserContextProvider>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={session}
+    >
+      <UserContextProvider setSession={session}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Component {...pageProps} />
+        </LocalizationProvider>
+      </UserContextProvider>
+    </SessionContextProvider>
   )
 }
