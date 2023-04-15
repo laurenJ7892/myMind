@@ -107,12 +107,14 @@ export default function SignUp() {
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
          <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">Sign up</h2>
+         <div className="flex w-[90%] mt-5 mx-auto text-2xl text-red-600">*all fields are compulsory</div>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex justify-between mx-auto w-[95%] md:w-full grid grid-cols grid-cols-1 md:flex">
             <input 
               type="text"
               required
               placeholder="First name"
+              maxLength="20"
               id="name"
               name="name"
               className="py-3 text-cyan-800 text-center border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-cyan-800 md:w-[50%] my-5 md:mt-0"
@@ -129,6 +131,7 @@ export default function SignUp() {
               id="lastName"
               name="lastName"
               placeholder="Last name"
+              maxLength="20"
               onChange={(e) => {
                 setLastName(e.target.value)
               }}

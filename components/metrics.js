@@ -7,7 +7,7 @@ import GoalModal from "../components/goalModal"
 
 
 export default function Metrics () {
-  const { user, allHabits, goal } = useUser()
+  const { user, allHabits, goal, achievedGoals } = useUser()
   const [bestDay, setBestDay] = useState(null)
   const [bestDaySubmissions, setBestDaySubmissions] = useState(0)
   const [streak, setStreak] = useState()
@@ -57,8 +57,8 @@ export default function Metrics () {
       const sortedLength = sorted.length - 1
       const bestDayArr = sorted[sortedLength]
       if (bestDayArr && bestDayArr.length > 0){
-        const updatedDate = new Date(bestDayArr[0]).setHours(11, 0, 0)
-        setBestDay(new Date(updatedDate).toLocaleDateString())
+        const updatedDate = new Date(bestDayArr[0])
+        setBestDay(new Date(updatedDate).toLocaleDateString('en-AU'))
         setBestDaySubmissions(bestDayArr[1])
       }
 
@@ -88,9 +88,9 @@ export default function Metrics () {
         const streakSec = streakLen * 86400000
         const streakEnd = streakInt+streakSec
 
-        setStreakStart(new Date(streakInt).toLocaleDateString())
+        setStreakStart(new Date(streakInt).toLocaleDateString('en-AU'))
         setStreak(streakLen + 1)
-        setStreakEnd(new Date(streakEnd).toLocaleDateString())
+        setStreakEnd(new Date(streakEnd).toLocaleDateString('en-AU'))
       }
 
       // Most commonly recorded well-being habit
@@ -123,7 +123,7 @@ export default function Metrics () {
     { editVisible ? <GoalModal heading={"Update Goal"} item={updateGoal} mode={"edit"} /> : ''}
     { goalModalVisible ? <GoalModal  /> : ''}
     {allHabits && allHabits.length > 0 && bestDay ? 
-      <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5"}>
+      <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5 border-solid border-2 border-sky-500"}>
         <div className={"flex my-2 mx-auto w-[90%] justify-center"}>
           <Image
             src={"/Images/trophy-solid.svg"}
@@ -146,14 +146,29 @@ export default function Metrics () {
           <p className="text-center md:justify-center w-[100%] text-md">Your best day for taking time for yourself was <span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  where you logged <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? "activities" : "activity"} </span> </p>
           <p className="text-center md:justify-center w-[100%]">Your most frequently recorded well-being habit is <span className="font-bold text-cyan-600 mx-1"> {habitType} </span> which you have recorded  <span className="font-bold text-cyan-600 mx-1"> {habitActivities ? habitActivities : ''} </span>  {habitActivities > 1 ? "activities" : "activity"} </p>
           <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
+          {achievedGoals && achievedGoals.length > 0 ?
+            <>
+            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Congratulations! You have achieved {achievedGoals.length} {achievedGoals && achievedGoals.length > 1 ? "goals" : "goal"}</h2>
+            <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 mx-5 border-cyan-800 border-collapse border-spacing-0.5">
+              <tbody>
+                {achievedGoals && achievedGoals.length > 0  ? achievedGoals.map((item) =>
+                <tr key={item.id}>
+                  <td className="text-md text-center md:px-2"> You prioritised your self care {item.num_times} {item.num_times > 1 ? "times" : "time"} by {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
+                </tr> 
+                ) : ''}
+              </tbody>
+            </table>
+            </>
+            : ''
+          }
           {goal && goal.length > 0 ?
             <>
-            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Your current {goal && goal.length > 1 ? "goals are:" : "goal is:"}</h2>
+            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Your current {goal && goal.length > 1 ? "goals to achieve are:" : "goal to achieve is:"}</h2>
             <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 mx-5 border-cyan-800 border-collapse border-spacing-0.5">
               <tbody>
                 {goal && goal.length > 0  ? goal.map((item) =>
                 <tr key={item.id}>
-                  <td className="text-md text-center">By {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} I want to prioritise my self care {item.num_times} {item.num_times > 1 ? "times" : "time"} </td>
+                  <td className="text-md text-center px-2 w-[60%] md:w-[80%]">As of the {item.created_at ? new Date(item.created_at).toLocaleDateString('en-AU') : ''} I want to prioritise my self care {item.num_times} {item.num_times > 1 ? "times" : "time"} by {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
                   <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2 md:table-cell">
                     <button 
                         className="flex mx-auto items-center justify-center p-2 rounded-[20px]"
@@ -183,7 +198,7 @@ export default function Metrics () {
             </table>
             </>
             :
-            <p className="text-center md:justify-center w-[100%] text-md">Keep it up and set a <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">goal</button> for this week</p>
+            <p className="text-center md:justify-center w-[100%] text-md mt-5">Keep it up and set a {achievedGoals && achievedGoals.length > 0 ? "new" : ''} <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">goal</button> for this week</p>
           }
       </div>
       : 

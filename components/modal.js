@@ -13,7 +13,6 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   const handleClick = () => {
     setShowModal(false)
     setSuccessModal(false)
-    console.log(session)
     if (route) {
       Router.push(route)
     } else {
