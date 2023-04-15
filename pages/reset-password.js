@@ -10,6 +10,7 @@ import Modal from "../components/modal"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function ResetPassword() {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const { setUser, user, session } = useUser()
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')

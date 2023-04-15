@@ -28,6 +28,7 @@ export async function getServerSideProps() {
 
 export default function Dashboard({data}) {
   const supabase = useSupabaseClient();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const { user, setAllHabits, allHabits, successModal, setSuccessModal, session, setGoal, setAchievedGoals, setUser } = useUser()
   const router = useRouter()
 
