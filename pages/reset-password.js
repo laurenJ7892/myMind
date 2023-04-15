@@ -10,7 +10,7 @@ import Modal from "../components/modal"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function ResetPassword() {
-  const { setUser, user } = useUser()
+  const { setUser, user, session } = useUser()
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [error, setError] = useState(null)

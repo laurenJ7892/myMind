@@ -11,7 +11,7 @@ import {supabase} from "../lib/supabaseClient"
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { setUser, setSession } = useUser()
+  const { setUser, setSession, session } = useUser()
   
    // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -25,7 +25,13 @@ export default function Home() {
         Router.push("/dashboard")
       }
     }
-    getData()
+
+    if (session && session.user){
+      setUser(session.user)
+      Router.push("/dashboard")
+    } else {
+      getData()
+    }
   }, [])
 
   return (

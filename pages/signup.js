@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Header from "../components/header"
 import { supabase }  from '../lib/supabaseClient'

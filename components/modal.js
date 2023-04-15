@@ -13,8 +13,12 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   const handleClick = () => {
     setShowModal(false)
     setSuccessModal(false)
-    if (route) {
-      Router.push(route)
+    if (session && session.user) {
+      if (route) {
+        Router.push(route)
+      } else {
+        Router.reload("/dashboard")
+      }
     } else {
       Router.push("/")
     }
@@ -45,7 +49,11 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
       .eq('id', deleteHabit.id)
 
       setShowModal(false)
-      Router.push("/")
+      if (session && session.user) {
+        Router.reload("/dashboard")
+      } else {
+        Router.push("/")
+      }
   }
 
   return (

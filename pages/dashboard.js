@@ -4,50 +4,55 @@ import Lottie from 'lottie-react'
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 import celebrate from "../public/Animations/celebrate.json"
+
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Header from "../components/header"
-import { supabase }  from '../lib/supabaseClient'
+import { supabase as supabaseClient }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import HabitTracker from "../components/habitTracker"
 import Metrics from "../components/metrics"
 import Modal from "../components/modal"
-import GoalModal from "../components/goalModal"
+
 
 export async function getServerSideProps() {
-  const { data } = await supabase
+  const { data } = await supabaseClient
       .from('habits')
       .select(`*`)
 
   return {
-    props: { data }
+    props: { 
+      data
+    },
   }
 }
 
-export default function Dashboard({ data }) {
-  const { user, setAllHabits, allHabits, successModal, setSuccessModal, session, setGoal, setAchievedGoals } = useUser()
+export default function Dashboard({data}) {
+  const supabase = useSupabaseClient();
+  const { user, setAllHabits, allHabits, successModal, setSuccessModal, session, setGoal, setAchievedGoals, setUser } = useUser()
   const router = useRouter()
 
 
   const getHabitData = async () => {
-    const { data } = await supabase
-      .from('user_habits')
-      .select(`
-        id,
-        user_id,
-        description,
-        habits (
+      const { data } = await supabase
+        .from('user_habits')
+        .select(`
           id,
-          name,
-          description
-        ),
-        created_at
-        `)
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true })
-    
-    if (data) {
-      setAllHabits(data)
-      getGoalData(data)
-    }
+          user_id,
+          description,
+          habits (
+            id,
+            name,
+            description
+          ),
+          created_at
+          `)
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+      
+      if (data) {
+        setAllHabits(data)
+        getGoalData(data)
+      }
   }
 
   const checkGoalCompletion = (data, habitData) => {
@@ -96,7 +101,7 @@ export default function Dashboard({ data }) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (!user || Object.keys(user).length == 0) {
+    if (!session || Object.keys(session).length == 0) {
       router.push('/')
     } else {
       getHabitData()

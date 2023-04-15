@@ -69,7 +69,7 @@ export default function MobileNav ({}) {
           </button>
         </div>
       <nav className="fixed w-full h-full bg-white">
-        {/* <div>
+        <div>
         {headerNavLinks.map((link) => (
             <div key={link.title} className="px-12 py-8">
               <Link
@@ -81,7 +81,7 @@ export default function MobileNav ({}) {
               </Link>
             </div>
           ))}
-        </div> */}
+        </div>
         {user && user.role == 'authenticated' ? <>
               <Link 
                 href="/profile" 

@@ -21,20 +21,25 @@ export default function Header () {
           />
         </Link>
         <div className="flex items-center text-lg leading-5">
-          {/* TO DO: ITERATION 2 */}
-            {/* <div className="flex mx-8">
+            <div className="flex mx-8">
               {headerNavLinks.map((link) => (
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-4 font-medium text-gray-900 hidden sm:block"
+                  className="px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 hidden sm:block rounded-[20px]"
                 >
                   {link.title}
                 </Link>
               ))}
-            </div> */}
+            </div>
             <div className="flex">
             {user && user.role == 'authenticated' ? <>
+            <Link 
+                  href="/dashboard" 
+                  aria-label="dashboard" 
+                  className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
+                  Dashboard
+                </Link>
                 <Link 
                   href="/profile" 
                   aria-label="profile" 

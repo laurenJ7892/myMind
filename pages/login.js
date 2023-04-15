@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Router from 'next/router'
 
 import Header from "../components/header"

@@ -11,13 +11,16 @@ const GoalModal = ({ data, mode, item, heading }) => {
   const [date, setDate] = useState(undefined)
   const [goalHabit, setGoalHabit] = useState(null)
   const [goalAmount, setGoalAmount] = useState(null)
-  const { user, setGoal, setSuccessModal } = useUser()
+  const { user, setGoal, setSuccessModal, session } = useUser()
 
   const habitGoalFrequency = [...Array(8).keys()]
   
   const handleClick = () => {
     setShowModal(false)
-    Router.push("/")
+    if (session && session.user) {
+    } else {
+      Router.push("/")
+    }
   }
 
   const handleSubmit = async () => {
@@ -54,7 +57,10 @@ const GoalModal = ({ data, mode, item, heading }) => {
       console.log(error)
     }
     setShowModal(false)
-    Router.push("/")
+    if (session && session.user) {
+      } else {
+        Router.push("/")
+      }
   }
 
   const handleEdit = async () => {
