@@ -15,6 +15,12 @@ export default function Footer () {
                 href="/data" 
                 aria-label="data" 
                 className="hidden mx-4 sm:flex font-medium text-blue-900 underline">
+                About
+              </Link>
+            <Link 
+                href="/data" 
+                aria-label="data" 
+                className="hidden mx-4 sm:flex font-medium text-blue-900 underline">
                 Data Policy
               </Link>
             <Link 
