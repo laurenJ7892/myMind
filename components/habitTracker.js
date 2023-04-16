@@ -19,7 +19,7 @@ dayjs.extend(utc)
 
 export default function HabitTracker(data) {
   const requestAbortController = useRef(null);
-  const { user, habits, setHabits, setAllHabits, goal, setGoal, achievedGoals } = useUser()
+  const { user, habits, setHabits, setAllHabits, setGoal } = useUser()
   const [date, setDate] = useState(dayjs())
   const [visible, setVisible] = useState(false)
   const [editVisible, setEditVisible] = useState(false)
@@ -53,6 +53,7 @@ export default function HabitTracker(data) {
         .lte(`created_at`, queryMaxDate)
       
       if (data) {
+        console.log(data)
         setHabits(data)
       } else {
         setHabits({})
@@ -217,12 +218,13 @@ export default function HabitTracker(data) {
   
   return (
     <>
-      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={date.$d.toUTCString()} date={date.$d} /> : ''}
+      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={new Date(new Date(date.$d).setUTCHours(0, 0, 0, 0)).toUTCString()} date={date.$d} /> : ''}
       { deleteHabit ? <Modal heading={"Delete Habit"} text={"Are you sure you want to delete this entry?"} deleteHabit={editHabit} data={data} /> : ''}
       { editVisible ? <EditModal data={data} habit={editHabit} /> : ''}
-    <div className="mt-5 flex grid grid-rows md:grid-rows-2 mx-auto w-[95%] md:h-[40vh] md:py-10">
-      <div className="flex grow bg-gray-100 h-[60vh]">
-        <div className="flex mx-auto grid grid-rows auto-rows-min md:grid-cols md:grid-cols-2 mt-5 w-[95%]">
+    <div className="mt-2 flex flex-grow grid grid-rows md:grid-rows-1 mx-auto w-[95%] md:py-5">
+      <h2 className="font-medium text-xl justify-center mx-auto">Habit Tracker</h2>
+      <div className="flex flex-grow">
+        <div className="flex mx-auto grid grid-rows auto-rows-min md:grid-cols md:grid-cols-2 mt-2 w-[95%]">
           {habits && !!Object.keys(habits).length > 0 ?
             <div className="flex mx-auto justify-center">
               <div>
@@ -281,7 +283,7 @@ export default function HabitTracker(data) {
               </table>
                 { date && date > dayjs().subtract(1, 'month') ? 
                 <button 
-                  className="flex w-[60%] mx-auto mt-10 items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
+                  className="flex w-[60%] mx-auto mt-10 items-center justify-center h-10 md:h-20 md:my-2 bg-blue-800 p-2 rounded-[20px] text-lg text-white font-medium"
                   onClick={handleClick}>
                   Log Habit
                 </button> : '' }
@@ -292,7 +294,7 @@ export default function HabitTracker(data) {
                 <>
                 <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">What is one thing you can do today for yourself?</p>
                 <button 
-                  className="flex w-[60%] mx-auto mt-10  items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-4 rounded-[20px] text-lg text-white font-medium"
+                  className="flex w-[60%] mx-auto mt-10  items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-2 rounded-[20px] text-lg text-white font-medium"
                   onClick={handleClick}>
                   Log Habit
               </button>

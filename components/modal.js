@@ -25,7 +25,7 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   }
 
   const handleSubmit = async () => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('user_habits')
       .insert({ 
         user_id: user.id, 
@@ -33,8 +33,9 @@ const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
         description: notes,
         created_at: utcDate
        })
+      .select()
 
-    if (!error) {
+    if (data) {
       setShowModal(false)
       setSuccessModal(true)
     } else {

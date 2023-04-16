@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Rating from '@mui/material/Rating';
 import Header from "../components/header"
+import Footer from "../components/footer"
 import { supabaseAdmin, supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import Modal from "../components/modal"
@@ -463,6 +464,7 @@ export default function Profile() {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   )
 }

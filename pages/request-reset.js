@@ -1,6 +1,7 @@
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
 import Header from "../components/header"
+import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
 import Modal from "../components/modal"
 
@@ -90,6 +91,7 @@ const RequestReset = () => {
          </form>
         </div>
       </main>
+      <Footer />
     </>
   )
 }

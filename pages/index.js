@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useEffect } from 'react'
 import Header from "../components/header"
+import Footer from "../components/footer"
 import Router from 'next/router'
 import { useUser } from "../lib/context"
 import {supabase} from "../lib/supabaseClient"
@@ -72,6 +73,7 @@ export default function Home() {
           <p className="flex items-center w-[90%] mx-auto">Our goal is to help you create a healthier habits by focusing on what you can do and encouraging self-care behaviours. These behaviours are in line with research from top psychologists to best manage anxiety and depression</p>
         </div>
       </main>
+      <Footer />
     </>
   )
 }

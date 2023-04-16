@@ -82,6 +82,15 @@ export default function MobileNav ({}) {
             </div>
           ))}
         </div>
+        <div key={'terms'} className="px-12 py-8">
+              <Link
+                href={"/terms"}
+                className="text-2xl font-bold tracking-widest text-gray-900"
+                onClick={onToggleNav}
+              >
+                Terms
+              </Link>
+            </div>
         {user && user.role == 'authenticated' ? <>
               <Link 
                 href="/profile" 
