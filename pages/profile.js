@@ -264,6 +264,7 @@ export default function Profile() {
                   id="name"
                   name="name"
                   disabled={disabled}
+                  maxLength="20"
                   className="p-3 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0"
                   onChange={(e) => {
                     setFirstName(e.target.value)
@@ -278,6 +279,7 @@ export default function Profile() {
                   id="lastName"
                   name="lastName"
                   disabled={disabled}
+                  maxLength="20"
                   placeholder={user.user_metadata?.last_name}
                   onChange={(e) => {
                     setLastName(e.target.value)
