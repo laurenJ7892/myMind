@@ -12,8 +12,8 @@ export default function Footer () {
         <div className="flex items-center text-sm leading-5 mr-5">
             <div className="flex">
             <Link 
-                href="/data" 
-                aria-label="data" 
+                href="/about" 
+                aria-label="about" 
                 className="hidden mx-4 sm:flex font-medium text-blue-900 underline">
                 About
               </Link>
