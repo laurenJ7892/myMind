@@ -123,7 +123,7 @@ export default function Metrics () {
     { editVisible ? <GoalModal heading={"Update Goal"} item={updateGoal} mode={"edit"} /> : ''}
     { goalModalVisible ? <GoalModal  /> : ''}
     {allHabits && allHabits.length > 0 && bestDay ? 
-      <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5 border-solid border-2 border-sky-500"}>
+      <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5"}>
         <div className={"flex my-2 mx-auto w-[90%] justify-center"}>
           <Image
             src={"/Images/trophy-solid.svg"}

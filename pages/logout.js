@@ -3,6 +3,7 @@ import { Inter } from '@next/font/google'
 import { useState } from 'react'
 import Router from 'next/router'
 import Header from "../components/header"
+import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import Modal from "../components/modal"
@@ -51,6 +52,7 @@ export default function Logout() {
          </form>
         </div>
       </main>
+      <Footer />
     </>
   )
 }

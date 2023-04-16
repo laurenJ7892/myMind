@@ -9,7 +9,7 @@ export default function Header () {
 
   return (
     <>
-    <div className="flex h-[150px] flex-col mx-auto justify-between px-[50px] py-[30px]">
+    <div className="flex h-[150px] flex-col mx-auto justify-between px-[50px] py-[30px] bg-white">
       <header className="flex items-center justify-between">
         <Link href='/' aria-label="myMind"  className="p-4 font-medium text-gray-900">
           <Image 

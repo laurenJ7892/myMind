@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import Router from 'next/router'
 
 import Header from "../components/header"
+import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 
@@ -107,6 +108,7 @@ export default function LogIn() {
         </Link>
         </div>
       </main>
+      <Footer />
     </>
   )
 }
