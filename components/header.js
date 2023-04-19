@@ -35,11 +35,18 @@ export default function Header () {
             <div className="flex">
             {user && user.role == 'authenticated' ? <>
             <Link 
+            href="/healthcheck" 
+            aria-label="healthcheck" 
+            className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
+            Health Check
+          </Link>
+            <Link 
                   href="/dashboard" 
                   aria-label="dashboard" 
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
                   Dashboard
                 </Link>
+               
                 <Link 
                   href="/profile" 
                   aria-label="profile" 
