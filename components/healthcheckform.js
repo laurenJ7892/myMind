@@ -62,7 +62,7 @@ export default function Form() {
             </h1>
             <p className="text-lg  text-gray-500">
               This is based off the ABS Health .... Link here
-              add logo ABS
+              add logo AB
             </p>
             <p className="text-lg  text-gray-500">
               Submit your answers and they will be analysed against guidelines and ABS statistics
