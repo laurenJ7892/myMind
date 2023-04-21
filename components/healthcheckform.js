@@ -58,7 +58,7 @@ export default function Form() {
         >
           <div className="flex-1 text-gray-700  p-20">
             <h1 className="text-3xl pb-2 font-">
-              Let's do a health check! 👋
+              Lets do a health check! 👋
             </h1>
             <p className="text-lg  text-gray-500">
               This is based off the ABS Health .... Link here
