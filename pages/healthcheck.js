@@ -1,4 +1,7 @@
 import { Inter } from '@next/font/google'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Link from 'next/link'
@@ -7,10 +10,20 @@ import Form from '../components/healthcheckform'
 
 
 const inter = Inter({ subsets: ['latin'] })
-const handleClick = () => {
-    Router.push('/')
+
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
   }
+}
+
 export default function Data() {
+  const { t } = useTranslation('common');
   return (
     <>
     <div>

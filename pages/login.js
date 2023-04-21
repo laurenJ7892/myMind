@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Header from "../components/header"
 import Footer from "../components/footer"
@@ -12,7 +14,19 @@ import { useUser } from "../lib/context"
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Need this for useTranslation to Run
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 export default function LogIn() {
+  const { t } = useTranslation('common');
   const { setUser, setSession } = useUser()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -64,7 +78,7 @@ export default function LogIn() {
               required
               id="email"
               name="email"
-              placeholder="Email"
+              placeholder={t('email')}
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
@@ -79,7 +93,7 @@ export default function LogIn() {
               minLength="6"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t('password')}
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -97,14 +111,14 @@ export default function LogIn() {
               disabled={!disabled}
               onClick={handleSubmit}
               className="flex justify-center mx-auto w-[95%] md:w-full mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
-              Login
+              {t('login')}
            </button>
          </form>
          <Link 
           href='/request-reset' 
           aria-label="reset-your-password"  
           className="flex p-4 w-[50%] mt-10 mx-auto text-base font-light justify-center text-white bg-blue-800 rounded-[20px] ">
-          Forgot your password?
+          {t('forgotPassword')}
         </Link>
         </div>
       </main>

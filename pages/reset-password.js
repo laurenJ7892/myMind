@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import { useState, useEffect } from 'react'
-import Router from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import Header from "../components/header"
 import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
@@ -10,7 +12,19 @@ import Modal from "../components/modal"
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Need this for useTranslation to Run
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 export default function ResetPassword() {
+  const { t } = useTranslation('common');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const { setUser, user, session } = useUser()
   const [password, setPassword] = useState('')
@@ -18,9 +32,6 @@ export default function ResetPassword() {
   const [error, setError] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const [passwordInput, setPasswordInput] = useState("password")
-
-  const heading = "Password Reset"
-  const text = "Your password has been reset"
 
   const togglePassword = () => {
     if (passwordInput === "password") {
@@ -76,20 +87,13 @@ export default function ResetPassword() {
 
   const disabled = (password != "") && (passwordConfirm != "")
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (!user || Object.keys(user).length == 0) {
-      Router.push('/')
-    }
-  }, [])
-
   return (
     <>
       <Header />
-      {submitted ? (<Modal heading={heading} text={text}  />) : ''}
+      {submitted ? (<Modal heading={t('resetPassword')} text={t('resetPasswordSuccess')}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">Reset password</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">{t('resetPassword')} </h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -99,7 +103,7 @@ export default function ResetPassword() {
               id="password"
               name="password"
               minLength="6"
-              placeholder="New password"
+              placeholder={t('password')} 
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -114,7 +118,7 @@ export default function ResetPassword() {
               minLength="6"
               id="passwordConfirm"
               name="passwordConfirm"
-              placeholder="Confirm new password"
+              placeholder={t('confirmPassword')} 
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}
@@ -132,7 +136,7 @@ export default function ResetPassword() {
               disabled={!disabled}
               onClick={handleSubmit}
               className="flex justify-center mx-auto w-[95%] md:w-full mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
-              Reset Password
+              {t('resetPassword')} 
            </button>
          </form>
         </div>

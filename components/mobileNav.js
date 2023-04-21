@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 import headerNavLinks from "../lib/data/headerNavLinks"
 import { useUser } from '../lib/context'
 
-export default function MobileNav ({}) {
+export default function MobileNav () {
+  const { t } = useTranslation('common');
   const [visible, setVisible] = useState(false)
   const { user } = useUser()
 
@@ -77,46 +79,85 @@ export default function MobileNav ({}) {
                 className="text-2xl font-bold tracking-widest text-gray-900"
                 onClick={onToggleNav}
               >
-                {link.title}
+                 {t(`${link.title}`)}
               </Link>
             </div>
           ))}
         </div>
         <div key={'terms'} className="px-12 py-8">
-              <Link
-                href={"/terms"}
-                className="text-2xl font-bold tracking-widest text-gray-900"
-                onClick={onToggleNav}
-              >
-                Terms
-              </Link>
-            </div>
+          <Link
+            href={"/terms"}
+            className="text-2xl font-bold tracking-widest text-gray-900"
+            onClick={onToggleNav}
+          >
+            {t('termsConditions')}
+          </Link>
+        </div>
+        <div key={'about'} className="px-12 py-8">
+          <Link
+            href={"/about"}
+            className="text-2xl font-bold tracking-widest text-gray-900"
+            onClick={onToggleNav}
+          >
+            {t('aboutUs')}
+          </Link>
+        </div>
+        <div key={'data'} className="px-12 py-8">
+          <Link 
+            href="/data" 
+            aria-label="data" 
+            className="text-2xl font-bold tracking-widest text-gray-900"
+            onClick={onToggleNav}
+            >
+              {t('dataPolicy')}
+          </Link>
+        </div>
         {user && user.role == 'authenticated' ? <>
+                <Link 
+                  href="/healthcheck" 
+                  aria-label="healthcheck" 
+                  className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
+                  {t('healthCheck')}
+                </Link>
+                <Link 
+                  href="/dashboard" 
+                  aria-label="dashboard" 
+                  className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
+                  {t('dashboard')}
+                </Link>
               <Link 
                 href="/profile" 
                 aria-label="profile" 
                 className="block w-full text-2xl font-bold tracking-widest text-gray-900 px-12 py-8">
-                Profile
+                 {t('profile')}
               </Link>
               <Link  
                 href="/logout"
                 aria-label="Logout"  
                 className="block w-full text-2xl font-bold tracking-widest text-gray-100 bg-blue-700 px-12 py-8">
-                Logout
+                 {t('logout')}
               </Link>
             </> : 
             <>
               <Link 
+                  href="/" 
+                  aria-label="home" 
+                  className="block w-full text-2xl font-bold tracking-widest text-gray-900 px-12 py-8"
+                  onClick={onToggleNav}
+                  >
+                  {t('home')}
+              </Link>
+              <Link 
                 href="/login" 
                 aria-label="login" 
                 className="block w-full text-2xl font-bold tracking-widest text-gray-900 px-12 py-8">
-                Log In
+                 {t('login')}
               </Link>
               <Link  
                 href="/signup" 
                 aria-label="signup"  
                 className="block w-full text-2xl font-bold tracking-widest text-gray-100 bg-blue-700 px-12 py-8">
-                Sign Up 
+                 {t('signUp')}
               </Link>
             </>
           }

@@ -1,12 +1,13 @@
 import "../styles/globals.css"
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { appWithTranslation } from 'next-i18next'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState, useEffect } from 'react'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { UserContextProvider } from '../lib/context'
 import {supabase} from "../lib/supabaseClient"
 
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   
   const [session, setSession] = useState(null)
 
@@ -38,3 +39,5 @@ export default function App({ Component, pageProps }) {
     </SessionContextProvider>
   )
 }
+
+export default appWithTranslation(App)

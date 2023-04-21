@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const { i18n } = require('./next-i18next.config')
+
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline';
@@ -52,6 +54,7 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
+  i18n,
   async headers() {
     return [
       {
