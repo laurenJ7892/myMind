@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import dayjs from 'dayjs'
+import { useTranslation } from 'next-i18next'
 import {useEffect, useState} from "react"
 import { useUser } from '../lib/context'
 import GoalModal from "../components/goalModal"
 
 
 export default function Metrics () {
+  const { t } = useTranslation('common');
   const { user, allHabits, goal, achievedGoals } = useUser()
   const [bestDay, setBestDay] = useState(null)
   const [bestDaySubmissions, setBestDaySubmissions] = useState(0)
@@ -119,8 +121,8 @@ export default function Metrics () {
 
   return (
     <>
-    { deleteVisible ? <GoalModal heading={"Delete Goal"} item={updateGoal} mode={"delete"} /> : ''}
-    { editVisible ? <GoalModal heading={"Update Goal"} item={updateGoal} mode={"edit"} /> : ''}
+    { deleteVisible ? <GoalModal heading={t('deleteGoal')} item={updateGoal} mode={"delete"} /> : ''}
+    { editVisible ? <GoalModal heading={t('updateGoal')} item={updateGoal} mode={"edit"} /> : ''}
     { goalModalVisible ? <GoalModal  /> : ''}
     {allHabits && allHabits.length > 0 && bestDay ? 
       <div className={"flex grid grid-rows w-[95%] mx-auto justify-center my-1 md:my-5"}>
@@ -133,7 +135,7 @@ export default function Metrics () {
             className="hidden md:flex"
             >
           </Image>
-          <h2 className="flex w-[100%] md:my-5 justify-center text-md md:text-xl">Take a <span className="flex text-cyan-600 font-semibold mx-1"> moment </span> to celebrate your <span className="flex text-cyan-600 font-semibold mx-1"> progress </span></h2>
+          <h2 className="flex w-[100%] md:my-5 justify-center text-md md:text-xl"> {t('take')} <span className="flex text-cyan-600 font-semibold mx-1"> {t('moment')} </span> {t('celebrate')} <span className="flex text-cyan-600 font-semibold mx-1"> {t('progress')} </span></h2>
           <Image
             src={"/Images/trophy-solid.svg"}
             height={50}
@@ -143,17 +145,17 @@ export default function Metrics () {
             >
           </Image>
         </div>
-          <p className="text-center md:justify-center w-[100%] text-md">Your best day for taking time for yourself was <span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  where you logged <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? "activities" : "activity"} </span> </p>
-          <p className="text-center md:justify-center w-[100%]">Your most frequently recorded well-being habit is <span className="font-bold text-cyan-600 mx-1"> {habitType} </span> which you have recorded  <span className="font-bold text-cyan-600 mx-1"> {habitActivities ? habitActivities : ''} </span>  {habitActivities > 1 ? "activities" : "activity"} </p>
-          <p className="text-center md:justify-center w-[100%]">Your best daily streak has been <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? "days" : "day"} </span> between  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> and <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
+          <p className="text-center md:justify-center w-[100%] text-md">{t('bestDay')}<span className="font-bold text-cyan-600 mx-1"> {bestDay ? bestDay.split("-").reverse().join("-") : ''} </span>  {t('whereYouLogged')} <span className="mx-1 font-bold text-cyan-600"> {bestDaySubmissions} {bestDaySubmissions > 1 ? t('activities') : t('activity')} </span> </p>
+          <p className="text-center md:justify-center w-[100%]">{t('frequentHabit')} <span className="font-bold text-cyan-600 mx-1"> {habitType} </span> {t('frequentHabitLine2')}  <span className="font-bold text-cyan-600 mx-1"> {habitActivities ? habitActivities : ''} </span>  {habitActivities > 1 ? t('activities') : t('activity')} </p>
+          <p className="text-center md:justify-center w-[100%]">{t('bestStreak')} <span className="font-bold text-cyan-600 mx-1"> {streak} {streak > 1 ? t('days') : t('day')} </span> {t('between')}  <span className="font-bold text-cyan-600 mx-1"> {streakStart ? streakStart : ''} </span> {t('and')} <span className="font-bold text-cyan-600 mx-1"> {streakEnd ? streakEnd : ''} </span> </p>
           {achievedGoals && achievedGoals.length > 0 ?
             <>
-            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Congratulations! You have achieved {achievedGoals.length} {achievedGoals && achievedGoals.length > 1 ? "goals" : "goal"}</h2>
+            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">{t('goalCongrats')} {achievedGoals.length} {achievedGoals && achievedGoals.length > 1 ? t('goals') : t('goal')}</h2>
             <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 mx-5 border-cyan-800 border-collapse border-spacing-0.5">
               <tbody>
                 {achievedGoals && achievedGoals.length > 0  ? achievedGoals.map((item) =>
                 <tr key={item.id}>
-                  <td className="text-md text-center md:px-2"> You prioritised your self care {item.num_times} {item.num_times > 1 ? "times" : "time"} by {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
+                  <td className="text-md text-center md:px-2"> {t('selfCareDone')} {item.num_times} {item.num_times > 1 ? t('times') : t('time')} {t('by')} {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
                 </tr> 
                 ) : ''}
               </tbody>
@@ -163,19 +165,19 @@ export default function Metrics () {
           }
           {goal && goal.length > 0 ?
             <>
-            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">Your current {goal && goal.length > 1 ? "goals to achieve are:" : "goal to achieve is:"}</h2>
+            <h2 className="text-center md:justify-center w-[100%] text-lg mt-5">{t('yourCurrent')} {goal && goal.length > 1 ? t('goalsAchieve') : t('goalAchieve')}</h2>
             <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 mx-5 border-cyan-800 border-collapse border-spacing-0.5">
               <tbody>
                 {goal && goal.length > 0  ? goal.map((item) =>
                 <tr key={item.id}>
-                  <td className="text-md text-center px-2 w-[60%] md:w-[80%]">As of the {item.created_at ? new Date(item.created_at).toLocaleDateString('en-AU') : ''} I want to prioritise my self care {item.num_times} {item.num_times > 1 ? "times" : "time"} by {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
+                  <td className="text-md text-center px-2 w-[60%] md:w-[80%]">{t('asDate')} {item.created_at ? new Date(item.created_at).toLocaleDateString('en-AU') : ''} {t('selfCarePriority')} {item.num_times} {item.num_times > 1 ? t('times') : t('time')} {t('by')} {item.completion_date ? new Date(item.completion_date).toLocaleDateString('en-AU') : ''} </td>
                   <td className="border border-1 border-cyan-800 border-spacing-0.5 p-2 md:table-cell">
                     <button 
                         className="flex mx-auto items-center justify-center p-2 rounded-[20px]"
                         onClick={() => handleEdit(item)}
                         >
                     <Image
-                        src="Images/pen-to-square-solid.svg"
+                        src="/Images/pen-to-square-solid.svg"
                         height={15}
                         width={15}
                         alt="edit habit"
@@ -185,7 +187,7 @@ export default function Metrics () {
                         className="flex mx-auto items-center justify-center mt-2 bg-blue-200 p-2 rounded-[20px]"
                         onClick={() => handleDelete(item)}>
                       <Image
-                        src="Images/trash-solid.svg"
+                        src="/Images/trash-solid.svg"
                         height={15}
                         width={15}
                         alt="delete habit"
@@ -198,11 +200,11 @@ export default function Metrics () {
             </table>
             </>
             :
-            <p className="text-center md:justify-center w-[100%] text-md mt-5">Keep it up and set a {achievedGoals && achievedGoals.length > 0 ? "new" : ''} <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">goal</button> for this week</p>
+            <p className="text-center md:justify-center w-[100%] text-md mt-5">{t('goalEncouragement')} {achievedGoals && achievedGoals.length > 0 ? t('new') : ''} <button onClick={handleGoalModalClick} className="font-bold text-cyan-600 mx-1">{t('goal')}</button> {t('goalWeekly')}</p>
           }
       </div>
       : 
-      <p className="text-center md:items-center md:justify-center mx-auto w-[90%] text-2xl mt-10"> Log a habit to start seeing your metrics! </p> }
+      <p className="text-center md:items-center md:justify-center mx-auto w-[90%] text-2xl mt-10">{t('logHabitMetrics')}</p> }
     </>
   )
 }

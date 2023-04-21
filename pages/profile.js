@@ -1,6 +1,8 @@
 import { Inter } from '@next/font/google'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Router from 'next/router'
 import Rating from '@mui/material/Rating';
 import Header from "../components/header"
@@ -12,7 +14,19 @@ import Modal from "../components/modal"
 
 const inter = Inter({ subsets: ['latin'] })
 
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 export default function Profile() {
+  const { t } = useTranslation('common');
+
   const { user, setUser, session } = useUser()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -69,7 +83,7 @@ export default function Profile() {
         }
       }
       else {
-        setError("Please change at least one value")
+        setError(t('profileUpdateNoChange'))
       }
     }
   }
@@ -173,28 +187,28 @@ export default function Profile() {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     if (password != passwordConfirm) {
-      setError("Please review your passwords. They do not match! ")
-      // return;
+      setError(t('passwordValidationNotSame'))
+      return;
     }
 
     if (!(/(?=.*\d)/.test(password))){
-      setError("Please make sure your password has at least one number character")
-      // return;
+      setError(t('passwordValidationNoNumber'))
+      return;
     }
 
     if (!(/(?=.*\W)/.test(password))) {
-      setError("Please make sure your password has at least one special character")
-      // return;
+      setError(t('passwordValidationNoSpecial'))
+      return;
     }
 
     if (!(/(?=.*[A-Z])/.test(password))) {
-      setError("Please make sure your password has at least one uppercase character")
-      // return;
+      setError(t('passwordValidationNoUpper'))
+      return;
     }
 
     if (!(/(?=.*[a-z])/.test(password))) {
-      setError("Please make sure your password has at least one lowercase character")
-      // return;
+      setError(t('passwordValidationNoLower'))
+      return;
     }
 
     if (password == passwordConfirm && 
@@ -243,20 +257,20 @@ export default function Profile() {
   return (
     <>
       <Header />
-      {submitted ? (<Modal heading={"User Information updated"} text={"If you updated your email, it won't be visible until you confirm your email via email"}  />) : ''}
-      {reviewSubmitted ? (<Modal heading={"Review received"} text={"Thank you for your review! It helps us improve the platform. Our team will review and approve to be published anonmyously."}  />) : ''}
-      {reviewDeleted ? (<Modal heading={"Review deleted"} text={"Your review has been deleted"}  />) : ''}
+      {submitted ? (<Modal heading={t('userInfoHeading')} text={t('userInfoText')}  />) : ''}
+      {reviewSubmitted ? (<Modal heading={t('reviewSubmitted')} text={t('reviewSubmittedText')}  />) : ''}
+      {reviewDeleted ? (<Modal heading={t('reviewDeleted')} text={t('reviewDeletedText')}  />) : ''}
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
         <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[70vh] w-[90%] mx-auto bg-blue-100">
           <div className="flex grid grid-rows mx-auto my-auto">
-           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-2 focus:bg-violet-700" onClick={toggleActive}>Account information</button>
-           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-2 focus:bg-violet-700 focus:text-white" onClick={togglePassword}>Change password</button>
-           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-2 focus:bg-violet-700 focus:text-white" onClick={toggleReview}>Review and Testimonials</button>
+           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-2 focus:bg-violet-700" onClick={toggleActive}>{t('accountInfo')}</button>
+           <button className="bg-blue-400 text-black rounded-[20px] p-4 my-2 focus:bg-violet-700 focus:text-white" onClick={togglePassword}>{t('changePassword')}</button>
+           <button className="bg-blue-800 text-white rounded-[20px] p-4 my-2 focus:bg-violet-700 focus:text-white capitalize" onClick={toggleReview}>{t('reviews')}</button>
           </div>
           <div className={accountTab ? 'visible' : 'hidden'}>
             <form className="flex grid grid-rows items-center mx-auto w-[90%] md:w-[80%] text-xl font-medium">
-              <h2 className="flex my-5 mx-2 justify-center text-2xl font-bold w-[100%] md:w-[80%]">Your account information</h2>
-                <label className="mx-2  w-[100%]">First name</label>
+              <h2 className="flex my-5 mx-2 justify-center text-2xl font-bold w-[100%] md:w-[80%]">{t('accountInfo')}</h2>
+                <label className="mx-2  w-[100%]">{t('firstName')}</label>
                 <input 
                   type="text"
                   required
@@ -271,7 +285,7 @@ export default function Profile() {
                   }}
                   value={firstName}
                 />
-                <label className="mx-2 w-[100%]">Last name</label>
+                <label className="mx-2 w-[100%]">{t('lastName')}</label>
                 <input
                   type="text"
                   className="p-3 text-cyan-800 border-gray-400 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0 focus:border-cyan-800"
@@ -286,7 +300,7 @@ export default function Profile() {
                   }}
                   value={lastName}
                   />
-              <label className="mx-2 w-[100%]">Email</label>
+              <label className="mx-2 w-[100%]">{t('email')}</label>
                 <input
                   type="email"
                   className="p-3 text-cyan-800 border-gray-400 focus:border-cyan-800 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] my-5 md:mt-0"
@@ -305,21 +319,21 @@ export default function Profile() {
                 <button
                     onClick={() => setDisabled(false)}
                     className="flex justify-center w-[80%] mx-5 md:mx-20 md:w-[50%] mt-10 bg-cyan-800 text-white p-4 rounded-[20px] disabled:bg-gray-400">
-                    Edit
+                    {t('edit')}
                 </button> : 
                 <button
                   onClick={handleSubmit}
                   disabled={!!submitted}
                   className="flex justify-center w-[80%] mx-5 md:mx-20 md:w-[50%] mt-10 bg-cyan-800 text-white p-4 rounded-[20px] disabled:bg-gray-400">
-                  Update
+                  {t('update')}
                 </button>
               }
             </form>
           </div>
           <div className={passwordTab ? 'visible' : 'hidden'}>
-            <h2 className="flex items-center mt-5 mx-auto justify-center text-2xl font-bold w-[100%]">Change Password</h2>
+            <h2 className="flex items-center mt-5 mx-auto justify-center text-2xl font-bold w-[100%]">{t('changePassword')}</h2>
             <form className="flex grid grid-rows items-center mx-auto w-[100%]"> 
-              <label className="mx-5 w-[100%] text-2xl my-5">Password</label>
+              <label className="mx-5 w-[100%] text-2xl my-5">{t('password')}</label>
               <div className="flex">
                   <input
                     type={passwordInput}
@@ -340,7 +354,7 @@ export default function Profile() {
                       onClick={showPassword}
                       alt="show password"/>
                   </div>
-                <label className="mx-5 w-[100%] my-5 text-2xl">Confirm Password</label>
+                <label className="mx-5 w-[100%] my-5 text-2xl">{t('confirmPassword')}</label>
                 <div className="flex">
                 <input 
                   type={passwordInput}
@@ -366,16 +380,16 @@ export default function Profile() {
                   disabled={password && password === passwordConfirm ? false : true}
                   onClick={handlePasswordChange}
                   className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-3 disabled:bg-gray-400 rounded-[20px]">
-                  Change password
+                  {t('changePassword')}
               </button>
             </form>
           </div>
           <div className={reviewTab ? 'visible' : 'hidden'}>
-          <h2 className="flex items-center mt-5 mx-auto justify-center text-2xl font-bold w-[100%]">My Reviews</h2>
+          <h2 className="flex items-center mt-5 mx-auto justify-center text-2xl font-bold w-[100%]">{t('myReviews')}</h2>
             {dbReviews && dbReviews.length == 0 ?
             <>
               <form className="flex grid grid-rows items-center mx-auto w-[100%]"> 
-                <label className="mx-auto text-center w-[100%] text-2xl my-5 mt-10">Out of 5 stars, how would you rate myMind?</label>
+                <label className="mx-auto text-center w-[100%] text-2xl my-5 mt-10">{t('reviewsRating')}?</label>
                 <div className="flex justify-center mx-auto">
                   <Rating
                     name="simple-controlled"
@@ -388,7 +402,7 @@ export default function Profile() {
                   />
                 </div>
                 <div className="mx-auto mt-10">
-                <label className="flex justify-center mx-auto text-center text-lg w-[80%]">In 200 characters or less, please tell us why you like myMind or how it has helped you</label>
+                <label className="flex justify-center mx-auto text-center text-lg w-[80%]">{t('reviewsQuestion')}</label>
                   <textarea
                     className="flex p-2 mx-auto mt-5 justify-center text-cyan-800 border-gray-400 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] h-[10vh] my-5 md:mt-10 focus:border-cyan-800"
                     required
@@ -406,13 +420,13 @@ export default function Profile() {
                     disabled={rating && review ? false : true}
                     onClick={handleReviewSubmit}
                     className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-3 disabled:bg-gray-400 rounded-[20px]">
-                    Submit review
+                    {t('submit')}
                 </button>
               </form>
             </> : 
             <>
               <form className="flex grid grid-rows items-center mx-auto w-[100%]"> 
-                  <label className="mx-auto text-center w-[100%] text-2xl my-5 mt-10">Out of 5 stars, how did you rate myMind?</label>
+                  <label className="mx-auto text-center w-[100%] text-2xl my-5 mt-10">{t('reviewsUpdateRating')}?</label>
                   <div className="flex justify-center mx-auto">
                     <Rating
                       name="simple-controlled"
@@ -426,7 +440,7 @@ export default function Profile() {
                     />
                   </div>
                   <div className="mx-auto mt-10">
-                  <label className="flex justify-center mx-auto text-center text-lg w-[80%]">Why you like myMind or how it has helped you</label>
+                  <label className="flex justify-center mx-auto text-center text-lg w-[80%]">{t('reviewsUpdateQuestion')}</label>
                     <textarea
                       className="flex p-2 mx-auto mt-5 justify-center text-cyan-800 border-gray-400 border border-4 placeholder:text-gray-800 focus:placeholder:text-transperant w-[100%] md:w-[80%] h-[10vh] my-5 md:mt-10 focus:border-cyan-800"
                       required
@@ -444,19 +458,19 @@ export default function Profile() {
                   <button
                       onClick={toggleDisabled}
                       className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-3 disabled:bg-gray-400 rounded-[20px]">
-                      Edit Review
+                      {t('edit')}
                   </button>
                   :
                   <>
                   <button
                       onClick={handleReviewUpdate}
                       className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-800 text-white p-3 disabled:bg-gray-400 rounded-[20px]">
-                      Update Review
+                     {t('update')}
                   </button>
                   <button
                       onClick={handleReviewDelete}
                       className="flex justify-center mx-auto text-2xl w-[90%] md:w-[50%] mt-10 bg-cyan-400 text-black p-3 disabled:bg-gray-400 rounded-[20px]">
-                      Delete Review
+                      {t('delete')}
                   </button>
                   </>
                   }

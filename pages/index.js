@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import { useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Router from 'next/router'
@@ -11,7 +13,21 @@ import {supabase} from "../lib/supabaseClient"
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Need this for useTranslation to Run
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 export default function Home() {
+  
+  const { t } = useTranslation('common');
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const { setUser, setSession, session } = useUser()
   
@@ -39,19 +55,19 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>MyMind</title>
+        <title>{t('metaTitle')}</title>
         <meta name="description" content="Help manage anxiety and depression" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/Images/favicon.ico" />
       </Head>
       <Header />
       <main className="flex grid grid-cols grid-cols-1 md:grid-rows w-full h-full">
         <div className="flex grid grid-rows md:grid-cols md:grid-cols-2 mt-5 flex h-[60vh] md:h-[50vh] w-[90%] mx-auto text-2xl bg-blue-100">
           <div className="flex grid grid-rows">
-            <h2 className="flex items-center justify-center text-center font-bold">We are here to help with your anxiety.</h2>
-            <h4 className="flex items-center justify-center text-center">Start creating healthier self-care habits with the MyMind tracker</h4>
+            <h2 className="flex items-center justify-center text-center font-bold">{t('indexWelcome')}</h2>
+            <h4 className="flex items-center justify-center text-center">{t('indexWelcome2')}</h4>
             <button className="bg-blue-800 text-white rounded-[20px] w-[50%] md:h-[50%] mx-auto">
-              <Link href="/signup" className="flex items-center justify-center text-center font-bold">Sign up here</Link>
+              <Link href="/signup" className="flex items-center justify-center text-center font-bold">{t('indexSignCTA')}</Link>
             </button>
           </div>
           <Image
@@ -65,12 +81,12 @@ export default function Home() {
         </div>
         <div className="flex grid grid-rows h-full w-[90%] mt-5 md:mt-[5] md:mt-8 mx-auto text-lg bg-gray-200 p-10">
           <h2 className="flex items-center ml-5 font-bold text-xl">
-            Who are we?
+            {t('indexWhoAreWe')}
           </h2>
           <p className="flex items-center w-[90%] mx-auto">
-            MyMind is a tool aimed at first-year online students to help manage their anxiety or depression. We are a free resource and collect minimal personal information to best protect your privacy.
+          {t('indexWhoAreWe2')}
           </p>
-          <p className="flex items-center w-[90%] mx-auto">Our goal is to help you create a healthier habits by focusing on what you can do and encouraging self-care behaviours. These behaviours are in line with research from top psychologists to best manage anxiety and depression</p>
+          <p className="flex items-center w-[90%] mx-auto">{t('indexGoal')}</p>
         </div>
       </main>
       <Footer />

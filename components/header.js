@@ -1,10 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 import headerNavLinks from "../lib/data/headerNavLinks"
 import MobileNav from "./mobileNav"
 import { useUser } from '../lib/context'
 
+
+
 export default function Header () {
+  const { t } = useTranslation('common');
   const { user } = useUser()
 
   return (
@@ -28,36 +32,35 @@ export default function Header () {
                   href={link.href}
                   className="px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 hidden sm:block rounded-[20px]"
                 >
-                  {link.title}
+                  {t(`${link.title}`)}
                 </Link>
               ))}
             </div>
             <div className="flex">
             {user && user.role == 'authenticated' ? <>
-            <Link 
-            href="/healthcheck" 
-            aria-label="healthcheck" 
-            className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
-            Health Check
-          </Link>
-            <Link 
+                <Link 
+                    href="/healthcheck" 
+                    aria-label="healthcheck" 
+                    className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
+                    {t('healthCheck')}
+                </Link>
+                <Link 
                   href="/dashboard" 
                   aria-label="dashboard" 
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
-               
                 <Link 
                   href="/profile" 
                   aria-label="profile" 
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
-                  Profile
+                  {t('profile')}
                 </Link>
                 <Link  
                   href="/logout"
                   aria-label="Logout"  
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-100 bg-blue-700 rounded-[20px]">
-                  Logout
+                  {t('logout')}
                 </Link>
               </> : 
               <>
@@ -65,13 +68,13 @@ export default function Header () {
                   href="/login" 
                   aria-label="login" 
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-900 border-solid border-2 border-blue-700 rounded-[20px]">
-                  Log In
+                  {t('login')}
                 </Link>
                 <Link  
                   href="/signup" 
                   aria-label="signup"  
                   className="hidden mx-4 sm:block px-6 py-3 font-medium text-gray-100 bg-blue-700 rounded-[20px]">
-                  Sign Up 
+                  {t('signUp')}
                 </Link>
               </>
             }

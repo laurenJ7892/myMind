@@ -1,5 +1,8 @@
 import { Inter } from '@next/font/google'
 import { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import Header from "../components/header"
 import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
@@ -7,8 +10,20 @@ import Modal from "../components/modal"
 
 
 const inter = Inter({ subsets: ['latin'] })
+// Need this for useTranslation to Run
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 
 const RequestReset = () => {
+  const { t } = useTranslation('common');
   const [email, setEmail] = useState('')
   const [emailConfirm, setEmailConfirm] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -16,15 +31,13 @@ const RequestReset = () => {
   
   const websiteUrl = process.env.VERCEL_URL || "http://localhost:3000";
   const redirectUrl = websiteUrl + "/reset-password"
-  const heading = "Password Reset Email Sent"
-  const text =  "If you have an account, we will send an email to reset your password. Please also check your junk mail!"
  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (email != emailConfirm) {
-      setError("Please review your email. They do not match! ")
+      setError(t('errorEmailMatch'))
       return
     }
 
@@ -48,10 +61,10 @@ const RequestReset = () => {
   return (
     <>
       <Header />
-      {submitted ? (<Modal heading={heading} text={text}  />) : ''}
+      {submitted ? (<Modal heading={t('resetModalHeading')} text={t('aboutUs')}  />) : ''}
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] md:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">Password Reset</h2>
+         <h2 className="flex w-[95%] mt-5 mx-auto text-5xl text-cyan-800">{t('passwordReset')}</h2>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex mx-auto w-[95%] md:w-full my-5">
             <input
@@ -60,7 +73,7 @@ const RequestReset = () => {
               required
               id="email"
               name="email"
-              placeholder="Your email"
+              placeholder={t('email')}
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
@@ -74,7 +87,7 @@ const RequestReset = () => {
               required
               id="emailConfirm"
               name="emailConfirm"
-              placeholder="Confirm your email"
+              placeholder={t('confirmEmail')}
               onChange={(e) => {
                 setEmailConfirm(e.target.value)
               }}
@@ -86,7 +99,7 @@ const RequestReset = () => {
               disabled={!disabled}
               onClick={handleSubmit}
               className="flex justify-center mx-auto w-[95%] md:w-full mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
-              Request Reset Password
+             {t('requestResetPassword')}
            </button>
          </form>
         </div>

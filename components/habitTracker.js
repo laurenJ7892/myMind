@@ -9,6 +9,8 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
+import { useTranslation } from 'next-i18next'
+
 import { useUser } from "../lib/context"
 import Modal from "../components/modal"
 import EditModal from "../components/editModal"
@@ -18,6 +20,7 @@ import { supabase }  from '../lib/supabaseClient'
 dayjs.extend(utc)
 
 export default function HabitTracker(data) {
+  const { t } = useTranslation('common');
   const requestAbortController = useRef(null);
   const { user, habits, setHabits, setAllHabits, setGoal } = useUser()
   const [date, setDate] = useState(dayjs())
@@ -218,11 +221,11 @@ export default function HabitTracker(data) {
   
   return (
     <>
-      { visible ? <Modal heading={"Log Habit"} text={"What habit would you like to track?"} data={data} utcDate={new Date(new Date(date.$d).setUTCHours(0, 0, 0, 0)).toUTCString()} date={date.$d} /> : ''}
-      { deleteHabit ? <Modal heading={"Delete Habit"} text={"Are you sure you want to delete this entry?"} deleteHabit={editHabit} data={data} /> : ''}
+      { visible ? <Modal heading={t('logHabit')} text={t('logHabitText')} data={data} utcDate={new Date(new Date(date.$d).setUTCHours(0, 0, 0, 0)).toUTCString()} date={date.$d} /> : ''}
+      { deleteHabit ? <Modal heading={t('deleteHabit')} text={t('deleteHabitText')} deleteHabit={editHabit} data={data} /> : ''}
       { editVisible ? <EditModal data={data} habit={editHabit} /> : ''}
     <div className="mt-2 flex flex-grow grid grid-rows md:grid-rows-1 mx-auto w-[95%] md:py-5">
-      <h2 className="font-medium text-xl justify-center mx-auto">Habit Tracker</h2>
+      <h2 className="font-medium text-xl justify-center mx-auto">{t('habitTracker')}</h2>
       <div className="flex flex-grow">
         <div className="flex mx-auto grid grid-rows auto-rows-min md:grid-cols md:grid-cols-2 mt-2 w-[95%]">
           {habits && !!Object.keys(habits).length > 0 ?
@@ -230,22 +233,22 @@ export default function HabitTracker(data) {
               <div>
                 <div className="flex mx-auto justify-center my-5">
                   <Image 
-                    src={"Images/bullseye-solid.svg"}
+                    src={"/Images/bullseye-solid.svg"}
                     height={20}
                     width={20}
                     alt="Logged habit bullseye"
                     className="inline-flex mr-3 max-w-[20%]"
                   />
-                   <h2 className="flex ml-0">Way to go! You logged: </h2>
+                   <h2 className="flex ml-0">{t('habitsEncouragement')}: </h2>
                   </div>
               <table className="mt-2 mx-auto table-fixed md:table-auto border border-2 border-cyan-800 border-collapse border-spacing-0.5">
                 <thead>
                   <tr>
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 hidden lg:table-cell">Date</th>
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Habit</th>
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">Notes</th>
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 hidden lg:table-cell">{t('date')}</th>
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">{t('habit')}</th>
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2">{t('notes')}</th>
                     {/* Hide buttons on small devices */}
-                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 md:table-cell">Action</th>
+                    <th className="border border-2 border-cyan-800 border-spacing-0.5 p-2 md:table-cell">{t('action')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -260,7 +263,7 @@ export default function HabitTracker(data) {
                         onClick={() => handleEdit(row)}
                         >
                     <Image
-                        src="Images/pen-to-square-solid.svg"
+                        src="/Images/pen-to-square-solid.svg"
                         height={15}
                         width={15}
                         alt="edit habit"
@@ -270,7 +273,7 @@ export default function HabitTracker(data) {
                         className="flex mx-auto items-center justify-center mt-2 bg-blue-200 p-2 rounded-[20px]"
                         onClick={() => handleDelete(row)}>
                      <Image
-                        src="Images/trash-solid.svg"
+                        src="/Images/trash-solid.svg"
                         height={15}
                         width={15}
                         alt="delete habit"
@@ -285,22 +288,22 @@ export default function HabitTracker(data) {
                 <button 
                   className="flex w-[60%] mx-auto mt-10 items-center justify-center h-10 md:h-20 md:my-2 bg-blue-800 p-2 rounded-[20px] text-lg text-white font-medium"
                   onClick={handleClick}>
-                  Log Habit
+                 {t('logHabit')}
                 </button> : '' }
               </div>
             </div> : (
               <div className="flex grid grid-rows auto-rows-min h-40 md:h-80 item-center">
                 { date && date > dayjs().subtract(1, 'month') ?
                 <>
-                <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">What is one thing you can do today for yourself?</p>
+                <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10"> {t('habitsToday')}?</p>
                 <button 
                   className="flex w-[60%] mx-auto mt-10  items-center justify-center h-10 md:h-20 md:my-5 bg-blue-800 p-2 rounded-[20px] text-lg text-white font-medium"
                   onClick={handleClick}>
-                  Log Habit
+                  {t('logHabit')}
               </button>
               </>
                : <>
-               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">Try to focus on what you can achieve this week.</p>
+               <p className="flex mx-auto items-center justify-center text-center text-2xl my-2 md:my-10">{t('habitsOutOfDate')}.</p>
              </> }
               </div>
           )}

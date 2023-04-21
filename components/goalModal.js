@@ -2,11 +2,12 @@ import { useState } from 'react'
 import Router from 'next/router'
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
-
+import { useTranslation } from 'next-i18next'
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 
 const GoalModal = ({ data, mode, item, heading }) => {
+  const { t } = useTranslation('common');
   const [showModal, setShowModal] = useState(true)
   const [date, setDate] = useState(undefined)
   const [goalHabit, setGoalHabit] = useState(null)

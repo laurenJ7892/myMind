@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import Router from 'next/router'
-
+import { useTranslation } from 'next-i18next'
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 
 const EditModal = ({ data, habit }) => {
+  const { t } = useTranslation('common');
+
   const [showModal, setShowModal] = useState(true)
   const [date, setDate] = useState(null)
   const [habitId, setHabitId] = useState(null)
@@ -57,13 +59,13 @@ const EditModal = ({ data, habit }) => {
           <div className="relative my-6 mx-auto w-[75%] max-w-lg">
             <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
               <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-                <h5 className="text-2xl font-semibold">Edit Habit</h5>
+                <h5 className="text-2xl font-semibold">{t('editHabit')}</h5>
                 <button className="" onClick={handleClick}>
                   X
                 </button>
               </div>
               <div className="relative flex-auto ml-5 p-2">
-                <label>Date</label>
+                <label>{t('date')}</label>
                 <input 
                   type="date" 
                   value={date ? (new Date(date)).toISOString().substring(0, 10) : habit.created_at ? new Date(habit.created_at).toISOString().substring(0, 10) : new Date() } 
@@ -83,12 +85,12 @@ const EditModal = ({ data, habit }) => {
                 <input 
                   type="text" 
                   id="notes" 
-                  placeholder={habit.description ? habit.description : "Add Note"} 
+                  placeholder={habit.description ? habit.description : t('notes')} 
                   maxLength="100" 
                   className={"p-3 mx-auto ml-3 w-[90%]"} 
                   value={notes}
                   onChange={(e) => setNotes(e.currentTarget.value)}/>
-                <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleSubmit}>Submit</button> 
+                <button className="flex bg-blue-800 mx-auto justify-center text-white rounded-[20px] w-[50%] p-4 m-5" onClick={handleSubmit}>{t('submit')}</button> 
             </div>
           </div>
         </div>

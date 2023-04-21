@@ -3,17 +3,32 @@ import { Inter } from '@next/font/google'
 import Link from 'next/link'
 import { useState } from 'react'
 import Router from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Lottie from 'lottie-react'
+import welcome from "../public/Animations/welcome.json"
+
 import Header from "../components/header"
 import Footer from "../components/footer"
 import { supabase }  from '../lib/supabaseClient'
 import { useUser } from "../lib/context"
 import Modal from "../components/modal"
-import Lottie from 'lottie-react'
-import welcome from "../public/Animations/welcome.json"
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Need this for useTranslation to Run
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
+    },
+  }
+}
+
 export default function SignUp() {
+  const { t } = useTranslation('common');
   const { setUser, setSession } = useUser()
   const [accept, setAccept] = useState(false)
   const [firstName, setFirstName] = useState('')
@@ -84,7 +99,7 @@ export default function SignUp() {
       Router.push('/dashboard')
     } else {
       if (error.name == "AuthApiError"){
-        setError("Have you already signed up? Try to login!")
+        setError(t('errorSignUpAuth'))
       } else {
         setError(error.message)
       }
@@ -107,14 +122,14 @@ export default function SignUp() {
       <Header />
       <main className="flex w-[100vw] h-[100vh]">
         <div className="w-[90%] lg:w-[40%] mx-auto text-2xl font-bold">
-         <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">Sign up</h2>
-         <div className="flex w-[90%] mt-5 mx-auto text-2xl text-red-600">*all fields are compulsory</div>
+         <h2 className="flex w-[90%] mt-5 mx-auto text-5xl text-cyan-800">{t('signUp')} </h2>
+         <div className="flex w-[90%] mt-5 mx-auto text-2xl text-red-600">{t('fieldsCompulsory')}</div>
          <form className="flex mt-[10%] grid grid-rows items-center mx-auto w-[100%]"> 
            <div className="flex justify-between mx-auto w-[95%] md:w-full grid grid-cols grid-cols-1 md:flex">
             <input 
               type="text"
               required
-              placeholder="First name"
+              placeholder={t('firstName')}
               maxLength="20"
               id="name"
               name="name"
@@ -131,7 +146,7 @@ export default function SignUp() {
               required
               id="lastName"
               name="lastName"
-              placeholder="Last name"
+              placeholder={t('lastName')}
               maxLength="20"
               onChange={(e) => {
                 setLastName(e.target.value)
@@ -146,7 +161,7 @@ export default function SignUp() {
               required
               id="email"
               name="email"
-              placeholder="Email"
+              placeholder={t('email')}
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
@@ -160,7 +175,7 @@ export default function SignUp() {
               required
               id="confirmEmail"
               name="confirmEmail"
-              placeholder="Confirm email"
+              placeholder={t('confirmEmail')}
               onChange={(e) => {
                 setEmailConfirm(e.target.value)
               }}
@@ -175,7 +190,7 @@ export default function SignUp() {
               minLength="6"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t('password')}
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -190,7 +205,7 @@ export default function SignUp() {
            </div>
            {submitted ? (
               <>
-                <Modal heading={"Signup Success"} text={"Your account has successfully been created"} />
+                <Modal heading={t('signupSuccessHeading')} text={t('signupSuccessText')} />
                 <Lottie animationData={welcome} loop={true} />
             </>
             ) : ''}
@@ -201,7 +216,7 @@ export default function SignUp() {
               required
               id="confirmPassword"
               name="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder={t('confirmPassword')}
               onChange={(e) => {
                 setPasswordConfirm(e.target.value)
               }}
@@ -223,7 +238,7 @@ export default function SignUp() {
               value={accept}
               type="checkbox"/>
               <Link href="/terms">
-                <label className="ml-5 text-cyan-800 text-lg">Accept our <span className="underline">terms and conditions</span></label>
+                <label className="ml-5 text-cyan-800 text-lg">{t('acceptSignup')} <span className="underline">{t('termsConditions')}</span></label>
               </Link>
            </div>
            {error ? <p>{error}</p> : ''}
@@ -231,7 +246,7 @@ export default function SignUp() {
               disabled={!disabled}
               onClick={handleSubmit}
               className="flex justify-center mx-auto w-[95%] md:w-full mt-10 bg-cyan-800 text-white p-5 disabled:bg-gray-400">
-              Sign up
+              {t('signUp')}
            </button>
          </form>
         </div>

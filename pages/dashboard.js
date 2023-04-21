@@ -4,7 +4,8 @@ import Lottie from 'lottie-react'
 import dayjs from 'dayjs'
 var utc = require('dayjs/plugin/utc')
 import celebrate from "../public/Animations/celebrate.json"
-
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Header from "../components/header"
 import Footer from "../components/footer"
@@ -14,21 +15,23 @@ import HabitTracker from "../components/habitTracker"
 import Metrics from "../components/metrics"
 import Modal from "../components/modal"
 
-
-
-export async function getServerSideProps() {
+export async function getServerSideProps({locale}) {
   const { data } = await supabaseClient
       .from('habits')
       .select(`*`)
 
   return {
     props: { 
-      data
+      data,
+      ...(await serverSideTranslations(locale, [
+        'common',
+      ])),
     },
   }
 }
 
 export default function Dashboard({data}) {
+  const { t } = useTranslation('common');
   const supabase = useSupabaseClient();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const { user, setAllHabits, successModal, setSuccessModal, setGoal, setAchievedGoals } = useUser()
@@ -117,7 +120,7 @@ export default function Dashboard({data}) {
       <Header />
       <main className="flex flex-grow grid grid-cols grid-cols-1 w-[100vw] h-[80vh] divide-y divide-blue-200">
         <div className="flex h-[5vh] md:h-[5vh] w-[100%] mx-auto">
-          <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">Welcome {user?.user_metadata?.first_name}</h2>
+          <h2 className="flex items-center mx-auto w-[90%] mt-5 justify-center text-2xl text-blue-800 font-bold">{t('welcome')} {user?.user_metadata?.first_name}</h2>
         </div>
         <div className="flex flex-grow grid grid-rows my-5 w-[100%] mx-auto divide-y">
          <Metrics />
@@ -125,7 +128,7 @@ export default function Dashboard({data}) {
         {successModal ? 
         <>
           <Lottie animationData={celebrate} loop={false} />
-          <Modal heading="Congratulations" text="You took time and prioritised your well-being!"/>
+          <Modal heading={t('successModalHeading')} text={t('successModalText')}/>
         </>
         : '' }
         <div className="flex flex-grow">
