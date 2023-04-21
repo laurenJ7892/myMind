@@ -1,6 +1,5 @@
 import { Inter } from '@next/font/google'
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Header from "../components/header"
