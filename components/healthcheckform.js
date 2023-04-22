@@ -80,7 +80,7 @@ export default function Form() {
                   htmlFor="q1"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 1: How is your overral health today?
+                  Question 1: How is your overall health today?
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
