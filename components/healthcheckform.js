@@ -56,13 +56,14 @@ export default function Form() {
               Lets do a health check! 👋
             </h1>
             <p className="text-lg  text-gray-500">
-              This is based off the Australian Bureau of Statistics health data on mental and behavioral conditions by health risk factors and health status.
+                          This is based off the Australian Bureau of Statistics health data on mental and behavioral conditions by health risk factors and health status.
+                          Link here
               https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads
               <Image
                 src="/Images/ABS.png"
                 alt="ABS"
-                width={500}
-                height={500}
+                width={250}
+                height={250}
                 className="flex items-center m-auto"
                 priority
               />
@@ -80,7 +81,7 @@ export default function Form() {
                   htmlFor="q1"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 1: How is your overrall health today?
+                  Question 1: How is your overral health today?
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -135,7 +136,7 @@ export default function Form() {
                 >
                   <option value={"1"}>0-3</option>
                   <option value={"2"}>4-6</option>
-                  <option value={"3"}>6+</option>
+                  <option value={"3"}>7+</option>
                 </select>
               </div>
               {/* Question End */}
@@ -155,8 +156,8 @@ export default function Form() {
                   onChange={formik.handleChange}
                   value={formik.values.q4}
                 >
-                  <option value="1">never</option>
-                  <option value="2">sometimes</option>
+                  <option value="1">Never</option>
+                  <option value="2">Sometimes</option>
                   <option value="3"></option>
                 </select>
               </div>
@@ -177,9 +178,9 @@ export default function Form() {
                   onChange={formik.handleChange}
                   value={formik.values.q5}
                 >
-                  <option value="1">not even close</option>
-                  <option value="2">almost there</option>
-                  <option value="3">yes and typically more!</option>
+                  <option value="1">Not even close</option>
+                  <option value="2">Almost there</option>
+                  <option value="3">Yes and typically more!</option>
                 </select>
               </div>
               {/* Question End */}
@@ -199,9 +200,9 @@ export default function Form() {
                   onChange={formik.handleChange}
                   value={formik.values.q6}
                 >
-                  <option value="1">yes</option>
-                  <option value="2">ex-smoker</option>
-                  <option value="3">no</option>
+                  <option value="1">Yes</option>
+                  <option value="2">Ex-smoker</option>
+                  <option value="3">No</option>
                 </select>
               </div>
               {/* Question End */}
@@ -213,7 +214,7 @@ export default function Form() {
                   htmlFor="q7"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 7: how much alcohol do you consumer weekly?
+                  Question 7: How much alcohol do you consumer weekly?
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -222,7 +223,7 @@ export default function Form() {
                   value={formik.values.q7}
                 >
                   <option value="1">More than 10 drinks</option>
-                  <option value="2">less than 5 a week</option>
+                  <option value="2">Less than 5 a week</option>
                   <option value="3">Never or rarely</option>
                 </select>
               </div>
