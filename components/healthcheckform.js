@@ -56,8 +56,8 @@ export default function Form() {
               Lets do a health check! 👋
             </h1>
             <p className="text-lg  text-gray-500">
-                          This is based off the Australian Bureau of Statistics health data on mental and behavioural conditions by health risk factors and health status.
-                          <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
+              This is based off the Australian Bureau of Statistics health data on mental and behavioural conditions by health risk factors and health status.
+                          
               <Image
                 src="/Images/ABS.png"
                 alt="ABS"
@@ -66,7 +66,7 @@ export default function Form() {
                 className="flex items-center m-auto"
                 priority
               />
-
+                <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
             </p>
             <p className="text-lg  text-gray-500">
               Submit your answers and they will be analysed against guidelines and ABS statistics
