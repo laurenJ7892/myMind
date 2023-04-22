@@ -2,11 +2,39 @@ import Head from "next/head";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/router";
+import { useState} from "react";
+import { useRouter, Router } from "next/router";
 import { motion as m } from "framer-motion";
+import { use } from "react";
 
 export default function Form() {
-  const router = useRouter();
+  
+  const router = useRouter()
+  
+  const [q1, setq1] = useState("")
+  const [q2, setq2] = useState("")
+  const [q3, setq3] = useState("")
+  const [q4, setq4] = useState("")
+  const [q5, setq5] = useState("")
+  const [q6, setq6] = useState("")
+  const [q7, setq7] = useState("")
+  const [q8, setq8] = useState("")
+ 
+  function sendProps() {
+    router.push({
+      pathname: "/healthresults",
+      query: {
+        q1,
+        q2,
+        q3,
+        q4,
+        q5,
+        q6,
+        q7,
+        q8
+      }
+    })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -21,21 +49,12 @@ export default function Form() {
       
     },
 
-    // validationSchema: Yup.object({
-    //   name: Yup.string()
-    //     .max(20, "Name must be 20 characters or less.")
-    //     .required("Name is required"),
-    //   email: Yup.string()
-    //     .email("Invalid email address")
-    //     .required("Email is required"),
-    //   terms: Yup.array().required("Terms of service must be checked"),
-    // }),
-
-    onSubmit: (values) => {
-      console.log("form submitted");
-      console.log(values);
-      router.push({ pathname: "/", query: values });
-    },
+    // onSubmit: (values) => {
+    //   console.log("form submitted");
+    //   console.log(values);
+    //   sendProps()
+    //   //router.push({ pathname: "/healthresults", query: values });
+    // },
   });
 
   return (
@@ -55,17 +74,17 @@ export default function Form() {
             <h1 className="text-3xl pb-2 font-">
               Lets do a health check! 👋
             </h1>
-            <p className="text-lg  text-gray-500">
+            <Image
+            src="/Images/ABS.png"
+            alt="ABS"
+            width={100}
+            height={100}
+            className="py-10 flex items-center m-auto"
+            priority
+          /><p className="text-lg  text-gray-500">
               This is based off the Australian Bureau of Statistics health data on mental and behavioural conditions by health risk factors and health status.
                           
-              <Image
-                src="/Images/ABS.png"
-                alt="ABS"
-                width={250}
-                height={250}
-                className="flex items-center m-auto"
-                priority
-              />
+             
                 <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
             </p>
             <p className="text-lg  text-gray-500">
@@ -85,12 +104,13 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q1"
-                  onChange={formik.handleChange}
-                  value={formik.values.q1}
+                  onChange={(e) => setq1(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
-                  <option value="">Great</option>
-                  <option value="">Just okay</option>
-                  <option value="">It could be better</option>
+                <option value="0">--Make a selection--</option>
+                  <option value="11">Great</option>
+                  <option value="22">Just okay</option>
+                  <option value="33">It could be better</option>
                 </select>
               </div>
               {/* Question End */}
@@ -108,9 +128,10 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q2"
-                  onChange={formik.handleChange}
-                  value={formik.values.q2}
+                  onChange={(e) => setq2(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
+                <option value="0">--Make a selection--</option>
                   <option value="1">0</option>
                   <option value="2">1</option>
                   <option value="3">2</option>
@@ -130,9 +151,10 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q3"
-                  onChange={formik.handleChange}
-                  value={formik.values.q3}
+                  onChange={(e) => setq3(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
+                <option value="0">--Make a selection--</option>
                   <option value={"1"}>0-3</option>
                   <option value={"2"}>4-6</option>
                   <option value={"3"}>7+</option>
@@ -152,12 +174,13 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q4"
-                  onChange={formik.handleChange}
-                  value={formik.values.q4}
+                  onChange={(e) => setq4(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
-                  <option value="1">Never</option>
-                  <option value="2">Sometimes</option>
-                  <option value="3"></option>
+                <option value="0">--Make a selection--</option>
+                  <option value="1">never</option>
+                  <option value="2">sometimes</option>
+                  <option value="3">dailydaily</option>
                 </select>
               </div>
               {/* Question End */}
@@ -174,12 +197,13 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q5"
-                  onChange={formik.handleChange}
-                  value={formik.values.q5}
+                  onChange={(e) => setq5(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
-                  <option value="1">Not even close</option>
-                  <option value="2">Almost there</option>
-                  <option value="3">Yes and typically more!</option>
+                <option value="0">--Make a selection--</option>
+                  <option value="1">not even close</option>
+                  <option value="2">almost there</option>
+                  <option value="3">yes and typically more!</option>
                 </select>
               </div>
               {/* Question End */}
@@ -196,12 +220,13 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q6"
-                  onChange={formik.handleChange}
-                  value={formik.values.q6}
+                  onChange={(e) => setq6(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
-                  <option value="1">Yes</option>
-                  <option value="2">Ex-smoker</option>
-                  <option value="3">No</option>
+                <option value="0">--Make a selection--</option>
+                  <option value="1">yes</option>
+                  <option value="2">ex-smoker</option>
+                  <option value="3">no</option>
                 </select>
               </div>
               {/* Question End */}
@@ -218,9 +243,10 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q7"
-                  onChange={formik.handleChange}
-                  value={formik.values.q7}
+                  onChange={(e) => setq7(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
+                <option value="0">--Make a selection--</option>
                   <option value="1">More than 10 drinks</option>
                   <option value="2">Less than 5 a week</option>
                   <option value="3">Never or rarely</option>
@@ -240,9 +266,10 @@ export default function Form() {
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q8"
-                  onChange={formik.handleChange}
-                  value={formik.values.q8}
+                  onChange={(e) => setq8(e.target.value)} 
+                  //onChange={formik.handleChange}
                 >
+                <option value="0">--Make a selection--</option>\
                   <option value="1">Severe</option>
                   <option value="2">Mild</option>
                   <option value="3">None</option>
@@ -253,6 +280,7 @@ export default function Form() {
               
               </div>
               <button
+              onClick={ () => sendProps()}
                 type="submit"
                 className="bg-blue-500 font- text-sm text-white py-3 mt-6 rounded-lg w-full"
               >
@@ -267,7 +295,7 @@ export default function Form() {
 }
 
 
-//     TEMPLATE
+//     QUESTION QUESTION TEMPLATE
 //     {/* Question start */}
 //     <div className="pb-4">
 //     <label
