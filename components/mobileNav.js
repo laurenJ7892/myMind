@@ -47,7 +47,7 @@ export default function MobileNav () {
       </button>
 }
       <div
-        className={`fixed top-0 left-0 z-20 h-[100vh] w-full transform bg-white-200 duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full' }`}
+        className={`fixed top-0 left-0 z-20 h-[120vh] w-full transform bg-white-200 duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full' }`}
       >
         <div className="bg-white flex justify-end">
           <button

@@ -6,7 +6,7 @@ import { useUser } from "../lib/context"
 
 const Modal = ({ heading, text, route, data, date, utcDate, deleteHabit }) => {
   const { t } = useTranslation('common');
-  const visibleDate = new Date(date).setHours(11, 0, 0)
+  const visibleDate = new Date(date)
   const [showModal, setShowModal] = useState(true)
   const { user, setSuccessModal, session } = useUser()
   const [habit, setHabit] = useState(2)

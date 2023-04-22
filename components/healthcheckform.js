@@ -1,14 +1,12 @@
-import Head from "next/head";
-import Image from "next/image";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useState} from "react";
-import { useRouter, Router } from "next/router";
+import { useRouter,  } from "next/router";
+import { useTranslation } from 'next-i18next'
 import { motion as m } from "framer-motion";
+import Image from 'next/image'
 import { use } from "react";
 
 export default function Form() {
-  
   const router = useRouter()
   
   const [q1, setq1] = useState("")
@@ -48,14 +46,10 @@ export default function Form() {
       q8: "",
       
     },
-
-    // onSubmit: (values) => {
-    //   console.log("form submitted");
-    //   console.log(values);
-    //   sendProps()
-    //   //router.push({ pathname: "/healthresults", query: values });
-    // },
   });
+
+  
+  const { t } = useTranslation('common');
 
   return (
     <m.div
@@ -65,31 +59,33 @@ export default function Form() {
       className="absolute w-full"
     >
 
-      <main className="  h-screen items-center flex justify-center">
+      <main className="h-screen items-center flex justify-center grid grid-rows md:grid-cols w-full">
         <form
-          onSubmit={formik.handleSubmit}
-          className="bg-white flex rounded-lg w-1/2 font-latoRegular"
+          // onSubmit={formik.handleSubmit}
+          className="bg-white flex rounded-lg w-[90%] md:w-1/2 font-latoRegular"
         >
-          <div className="flex-1 text-gray-700  p-20">
-            <h1 className="text-3xl pb-2 font-">
-              Lets do a health check! 👋
+          <div className="flex-1 text-gray-700 mx-auto">
+            <h1 className="text-3xl p-2">
+              {t('healthCheckLine1')}👋
             </h1>
             <Image
-            src="/Images/ABS.png"
-            alt="ABS"
-            width={100}
-            height={100}
-            className="py-10 flex items-center m-auto"
-            priority
-          /><p className="text-lg  text-gray-500">
-              This is based off the Australian Bureau of Statistics health data on mental and behavioural conditions by health risk factors and health status.
-                          
-             
-                <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
+              src="/Images/ABS.png"
+              alt="ABS"
+              width={100}
+              height={100}
+              className="py-10 flex items-center m-auto"
+              priority
+            />
+          <p className="text-lg  text-gray-500">
+             {t('healthCheckLine3')}
+            <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
+            <p className="text-lg  text-gray-500 p-2">
+           
             </p>
-            <p className="text-lg  text-gray-500">
-              Submit your answers and they will be analysed against guidelines and ABS statistics
-            </p>
+            <p className="text-lg  text-gray-500 p-2">
+            {t('healthCheckLine2')}
+          </p>
+          </p>
             <div className="mt-6 ">
 
 
@@ -97,9 +93,9 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q1"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2 max-w-lg "
                 >
-                  Question 1: How is your overall health today?
+                 {t('healthCheckQ1')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -107,10 +103,9 @@ export default function Form() {
                   onChange={(e) => setq1(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="11">Great</option>
-                  <option value="22">Just okay</option>
-                  <option value="33">It could be better</option>
+                  <option value="">{t('great')}</option>
+                  <option value="">{t('ok')}</option>
+                  <option value="">{t('improved')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -123,7 +118,7 @@ export default function Form() {
                   htmlFor="q2"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 2: How many serves of fruit do you eat daily
+                 {t('healthCheckQ2')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -131,10 +126,9 @@ export default function Form() {
                   onChange={(e) => setq2(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="1">0</option>
-                  <option value="2">1</option>
-                  <option value="3">2</option>
+                  <option value="1">{t('0')}</option>
+                  <option value="2">{t('1')}</option>
+                  <option value="3">{t('2')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -146,7 +140,7 @@ export default function Form() {
                   htmlFor="q3"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 3: How many serves of vegetables do you eat daily?
+                   {t('healthCheckQ3')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -154,10 +148,9 @@ export default function Form() {
                   onChange={(e) => setq3(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value={"1"}>0-3</option>
-                  <option value={"2"}>4-6</option>
-                  <option value={"3"}>7+</option>
+                  <option value={"1"}>{t('0-3')}</option>
+                  <option value={"2"}>{t('4-6')}</option>
+                  <option value={"3"}>{t('6+')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -169,18 +162,15 @@ export default function Form() {
                   htmlFor="q4"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 4: Do you regulary drink sugary drinks?
+                 {t('healthCheckQ4')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
                   name="q4"
                   onChange={(e) => setq4(e.target.value)} 
-                  //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="1">never</option>
-                  <option value="2">sometimes</option>
-                  <option value="3">dailydaily</option>
+                  <option value="1">{t('never')}</option>
+                  <option value="2">{t('sometimes')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -192,7 +182,7 @@ export default function Form() {
                   htmlFor="q5"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 5: Do you perform 150 minutes of physical activity per week?
+                 {t('healthCheckQ5')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -200,10 +190,9 @@ export default function Form() {
                   onChange={(e) => setq5(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="1">not even close</option>
-                  <option value="2">almost there</option>
-                  <option value="3">yes and typically more!</option>
+                  <option value="1">{t('notClose')}</option>
+                  <option value="2">{t('almost')}e</option>
+                  <option value="3">{t('yesAnd')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -215,7 +204,7 @@ export default function Form() {
                   htmlFor="q6"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 6: Are you a smoker?
+                   {t('healthCheckQ6')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -223,10 +212,9 @@ export default function Form() {
                   onChange={(e) => setq6(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="1">yes</option>
-                  <option value="2">ex-smoker</option>
-                  <option value="3">no</option>
+                  <option value="1">{t('yes')}</option>
+                  <option value="2">{t('smoker')}</option>
+                  <option value="3">{t('no')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -238,7 +226,7 @@ export default function Form() {
                   htmlFor="q7"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 7: How much alcohol do you consumer weekly?
+                  {t('healthCheckQ7')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -246,10 +234,9 @@ export default function Form() {
                   onChange={(e) => setq7(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>
-                  <option value="1">More than 10 drinks</option>
-                  <option value="2">Less than 5 a week</option>
-                  <option value="3">Never or rarely</option>
+                  <option value="1">{t('10+')}</option>
+                  <option value="2">{t('less5')}</option>
+                  <option value="3">{t('neverRarely')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -261,7 +248,7 @@ export default function Form() {
                   htmlFor="q8"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 8: Do you experience chronic body pains?
+                  {t('healthCheckQ8')}
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
@@ -269,10 +256,9 @@ export default function Form() {
                   onChange={(e) => setq8(e.target.value)} 
                   //onChange={formik.handleChange}
                 >
-                <option value="0">--Make a selection--</option>\
-                  <option value="1">Severe</option>
-                  <option value="2">Mild</option>
-                  <option value="3">None</option>
+                  <option value="1">{t('severe')}</option>
+                  <option value="2">{t('mild')}</option>
+                  <option value="3">{t('none')}</option>
                 </select>
               </div>
               {/* Question End */}
@@ -284,36 +270,13 @@ export default function Form() {
                 type="submit"
                 className="bg-blue-500 font- text-sm text-white py-3 mt-6 rounded-lg w-full"
               >
-                Submit
+                 {t('submit')}
               </button>
             </div>
-
         </form>
       </main>
     </m.div>
   );
 }
 
-
-//     QUESTION QUESTION TEMPLATE
-//     {/* Question start */}
-//     <div className="pb-4">
-//     <label
-//       htmlFor="q1"
-//       className="flex wrap block font- text-lg pb-2 max-w-lg "
-//     >
-//       Question 1:
-//     </label>
-//     <select
-//       className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
-//       name="q1"
-//       onChange={formik.handleChange}
-//       value={formik.values.q1}
-//     >
-//       <option></option>
-//       <option></option>
-//       <option></option>
-//     </select>
-//   </div>
-//   {/* Question start */}
     
