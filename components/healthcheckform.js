@@ -56,9 +56,8 @@ export default function Form() {
               Lets do a health check! 👋
             </h1>
             <p className="text-lg  text-gray-500">
-                          This is based off the Australian Bureau of Statistics health data on mental and behavioral conditions by health risk factors and health status.
-                          Link here
-              https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads
+                          This is based off the Australian Bureau of Statistics health data on mental and behavioural conditions by health risk factors and health status.
+                          <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
               <Image
                 src="/Images/ABS.png"
                 alt="ABS"
@@ -126,7 +125,7 @@ export default function Form() {
                   htmlFor="q3"
                   className="flex wrap block font- text-lg pb-2 max-w-lg "
                 >
-                  Question 3: How many serves of vegetables do you eat Daily?
+                  Question 3: How many serves of vegetables do you eat daily?
                 </label>
                 <select
                   className="border-2 border-gray-500 p-2 rounded-md w-1/2 focus:border-blue-500 focus:ring-blue-500 w-full"
