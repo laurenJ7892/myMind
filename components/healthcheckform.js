@@ -1,13 +1,12 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useState} from "react";
 import { useRouter,  } from "next/router";
 import { useTranslation } from 'next-i18next'
 import { motion as m } from "framer-motion";
+import Image from 'next/image'
 import { use } from "react";
 
 export default function Form() {
-  
   const router = useRouter()
   
   const [q1, setq1] = useState("")
@@ -34,6 +33,21 @@ export default function Form() {
       }
     })
   }
+
+  const formik = useFormik({
+    initialValues: {
+      q1: "",
+      q2: "",
+      q3: "",
+      q4: "",
+      q5: "",
+      q6: "",
+      q7: "",
+      q8: "",
+      
+    },
+  });
+
   
   const { t } = useTranslation('common');
 
@@ -47,7 +61,7 @@ export default function Form() {
 
       <main className="h-screen items-center flex justify-center grid grid-rows md:grid-cols w-full">
         <form
-          onSubmit={formik.handleSubmit}
+          // onSubmit={formik.handleSubmit}
           className="bg-white flex rounded-lg w-[90%] md:w-1/2 font-latoRegular"
         >
           <div className="flex-1 text-gray-700 mx-auto">
