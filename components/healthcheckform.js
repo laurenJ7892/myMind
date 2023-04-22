@@ -58,7 +58,15 @@ export default function Form() {
             <p className="text-lg  text-gray-500">
               This is based off the Australian Bureau of Statistics health data on mental and behavioral conditions by health risk factors and health status.
               https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads
-              add logo ABS
+              <Image
+                src="/Images/ABS.png"
+                alt="ABS"
+                width={500}
+                height={500}
+                className="flex items-center m-auto"
+                priority
+              />
+
             </p>
             <p className="text-lg  text-gray-500">
               Submit your answers and they will be analysed against guidelines and ABS statistics
