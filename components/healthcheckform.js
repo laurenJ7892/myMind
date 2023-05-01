@@ -59,7 +59,7 @@ export default function Form() {
       className="absolute w-full"
     >
 
-      <main className="h-screen items-center flex justify-center grid grid-rows md:grid-cols w-full">
+      <main className="h-[90%] items-center flex justify-center">
         <form
           // onSubmit={formik.handleSubmit}
           className="bg-white flex rounded-lg w-[90%] md:w-1/2 font-latoRegular"
