@@ -4,9 +4,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Header from "../components/header"
 import Footer from "../components/footer"
-import Link from 'next/link'
 import Form from '../components/healthcheckform'
-//
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,20 +20,19 @@ export async function getStaticProps({ locale }) {
   }
 }
 
-export default function Data() {
+export default function HealthCheck() {
   const { t } = useTranslation('common');
   return (
     <>
-    <div>
-      <Header />
-      <main className="flex flex-col w-full h-auto">
-      <div className='flex wrap flex-col directoblock flex p-20'>
-      <Form></Form>
+      <div>
+        <Header />
+        <main className="flex flex-col w-full h-auto">
+          <div className='flex wrap flex-col directoblock flex p-20'>
+            <Form/>
+          </div>
+        </main>
       </div>
-      </main>
-      </div>
-      <Footer />
-      
-      </>
+      <Footer />  
+    </>
   )
 }

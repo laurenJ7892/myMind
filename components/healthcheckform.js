@@ -1,13 +1,13 @@
 import { useFormik } from "formik";
 import { useState} from "react";
-import { useRouter,  } from "next/router";
+import Router from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { motion as m } from "framer-motion";
 import Image from 'next/image'
 import { use } from "react";
 
 export default function Form() {
-  const router = useRouter()
+
   
   const [q1, setq1] = useState("")
   const [q2, setq2] = useState("")
@@ -18,8 +18,9 @@ export default function Form() {
   const [q7, setq7] = useState("")
   const [q8, setq8] = useState("")
  
-  function sendProps() {
-    router.push({
+  function sendProps(e) {
+    e.preventDefault()
+    Router.push({
       pathname: "/healthresults",
       query: {
         q1,
@@ -31,7 +32,7 @@ export default function Form() {
         q7,
         q8
       }
-    })
+    }, '/healthresults')
   }
 
   const formik = useFormik({
@@ -58,7 +59,6 @@ export default function Form() {
       exit={{ opacity: 0 }}
       className="flex w-full mb-5 h-[90%]"
     >
-
       <div className="flex justify-center grid grid-rows md:grid-cols w-full ">
         <form
           // onSubmit={formik.handleSubmit}
@@ -79,13 +79,10 @@ export default function Form() {
           <p className="text-lg text-gray-500">
              {t('healthCheckLine3')}
             <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
-            <p className="text-lg  text-gray-500 p-2">
-           
             </p>
             <p className="text-lg  text-gray-500 p-2">
-            {t('healthCheckLine2')}
-          </p>
-          </p>
+              {t('healthCheckLine2')}
+            </p>
             <div className="mt-6 ">
 
 
