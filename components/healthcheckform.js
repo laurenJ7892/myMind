@@ -56,16 +56,16 @@ export default function Form() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute w-full"
+      className="flex w-full mb-5 h-[90%]"
     >
 
-      <main className="h-screen items-center flex justify-center grid grid-rows md:grid-cols w-full">
+      <div className="flex justify-center grid grid-rows md:grid-cols w-full ">
         <form
           // onSubmit={formik.handleSubmit}
-          className="bg-white flex rounded-lg w-[90%] md:w-1/2 font-latoRegular"
+          className="bg-white flex rounded-lg w-[90%] md:w-[80%] font-latoRegular h-[80%]"
         >
           <div className="flex-1 text-gray-700 mx-auto">
-            <h1 className="text-3xl p-2">
+            <h1 className="text-3xl">
               {t('healthCheckLine1')}👋
             </h1>
             <Image
@@ -73,10 +73,10 @@ export default function Form() {
               alt="ABS"
               width={100}
               height={100}
-              className="py-10 flex items-center m-auto"
+              className="py-5 flex items-center m-auto"
               priority
             />
-          <p className="text-lg  text-gray-500">
+          <p className="text-lg text-gray-500">
              {t('healthCheckLine3')}
             <a href= "https://www.abs.gov.au/statistics/health/health-conditions-and-risks/physical-activity/latest-release#data-downloads"> Link here (Table 4)</a>
             <p className="text-lg  text-gray-500 p-2">
@@ -93,7 +93,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q1"
-                  className="flex wrap block text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2"
                 >
                  {t('healthCheckQ1')}
                 </label>
@@ -116,7 +116,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q2"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block font- text-lg pb-2"
                 >
                  {t('healthCheckQ2')}
                 </label>
@@ -138,7 +138,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q3"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2 "
                 >
                    {t('healthCheckQ3')}
                 </label>
@@ -160,7 +160,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q4"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2 "
                 >
                  {t('healthCheckQ4')}
                 </label>
@@ -180,7 +180,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q5"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2 "
                 >
                  {t('healthCheckQ5')}
                 </label>
@@ -202,7 +202,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q6"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2"
                 >
                    {t('healthCheckQ6')}
                 </label>
@@ -224,7 +224,7 @@ export default function Form() {
               <div className="pb-4">
                 <label
                   htmlFor="q7"
-                  className="flex wrap block font- text-lg pb-2 max-w-lg "
+                  className="flex wrap block text-lg pb-2"
                 >
                   {t('healthCheckQ7')}
                 </label>
@@ -266,15 +266,15 @@ export default function Form() {
               
               </div>
               <button
-              onClick={ () => sendProps()}
+              onClick={sendProps}
                 type="submit"
-                className="bg-blue-500 font- text-sm text-white py-3 mt-6 rounded-lg w-full"
+                className="bg-blue-500 text-sm text-white my-6 p-2 rounded-lg w-full"
               >
                  {t('submit')}
               </button>
             </div>
         </form>
-      </main>
+      </div>
     </m.div>
   );
 }
